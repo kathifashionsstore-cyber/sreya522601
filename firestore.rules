@@ -1,0 +1,125 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    function isEditor() {
+      return request.auth != null && request.auth.token.editor == true;
+    }
+
+    function isStaff() {
+      return isAdmin() || isEditor();
+    }
+
+    function isNonEmptyString(field, max) {
+      return field is string && field.size() > 0 && field.size() <= max;
+    }
+
+    function isOptionalString(field, max) {
+      return !(field in request.resource.data) || field == null || (field is string && field.size() <= max);
+    }
+
+    function validPhone(phone) {
+      return phone is string && phone.matches('^[0-9+() -]{7,18}$');
+    }
+
+    match /settings/public {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /settings/payments {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /settings/theme {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /{collection}/{doc} {
+      allow read: if collection in [
+        'services',
+        'serviceCategories',
+        'subServices',
+        'doctors',
+        'gallery',
+        'banners',
+        'festivalBanners',
+        'heroSlides',
+        'faqs',
+        'departments',
+        'testimonials',
+        'facilities',
+        'trustPoints',
+        'differentiators'
+      ];
+      allow write: if (collection in [
+        'services',
+        'serviceCategories',
+        'subServices',
+        'doctors',
+        'gallery',
+        'banners',
+        'festivalBanners',
+        'heroSlides',
+        'faqs',
+        'departments',
+        'testimonials',
+        'facilities',
+        'trustPoints',
+        'differentiators'
+      ] && isAdmin()) || (collection == 'gallery' && isEditor());
+    }
+
+    match /blogPosts/{doc} {
+      allow read: if resource.data.published == true || isAdmin();
+      allow write: if isAdmin() || isEditor();
+    }
+
+    match /contacts/{doc} {
+      allow create: if isNonEmptyString(request.resource.data.name, 100)
+                    && validPhone(request.resource.data.phone)
+                    && isOptionalString(request.resource.data.email, 120)
+                    && isNonEmptyString(request.resource.data.message, 1200)
+                    && isOptionalString(request.resource.data.type, 60)
+                    && request.resource.data.consentToContact == true;
+      allow read, update, delete: if isStaff();
+    }
+
+    match /appointments/{doc} {
+      allow create: if isNonEmptyString(request.resource.data.patientName, 100)
+                    && validPhone(request.resource.data.phone)
+                    && isOptionalString(request.resource.data.email, 120)
+                    && isNonEmptyString(request.resource.data.department, 120)
+                    && isNonEmptyString(request.resource.data.preferredDate, 30)
+                    && isNonEmptyString(request.resource.data.preferredTime, 30)
+                    && isOptionalString(request.resource.data.message, 1200)
+                    && request.resource.data.status == 'pending'
+                    && request.resource.data.source in ['online', 'chatbot']
+                    && request.resource.data.consentToContact == true
+                    && isOptionalString(request.resource.data.notificationChannel, 40);
+      allow read, update, delete: if isStaff();
+    }
+
+    match /analytics/pageViews/events/{doc} {
+      allow create: if isNonEmptyString(request.resource.data.path, 300)
+                    && isNonEmptyString(request.resource.data.sessionId, 120)
+                    && isOptionalString(request.resource.data.referrer, 300)
+                    && isOptionalString(request.resource.data.device, 40);
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /securityLog/{doc} {
+      allow create: if request.auth != null;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

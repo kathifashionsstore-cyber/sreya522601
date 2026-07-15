@@ -1,0 +1,17 @@
+{
+  "name": "Sreya Hospitals & IVF Centre",
+  "short_name": "Sreya IVF",
+  "description": "Fertility treatments and fertility testing in Narasaraopet.",
+  "theme_color": "#087f8c",
+  "background_color": "#fff7f2",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "192x192 512x512", "type": "image/svg+xml" },
+    { "src": "/icons/maskable.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Book Appointment", "url": "/appointment", "description": "Request a hospital appointment" },
+    { "name": "Services", "url": "/services", "description": "Browse fertility treatments and testing" }
+  ]
+}

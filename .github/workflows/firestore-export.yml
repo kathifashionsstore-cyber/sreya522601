@@ -1,0 +1,18 @@
+name: Weekly Firestore Export
+
+on:
+  schedule:
+    - cron: '30 2 * * 0'
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    if: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER != '' && secrets.GCP_SERVICE_ACCOUNT != '' && secrets.FIRESTORE_EXPORT_BUCKET != '' && secrets.FIREBASE_PROJECT_ID != '' }}
+    steps:
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - run: gcloud firestore export "gs://${{ secrets.FIRESTORE_EXPORT_BUCKET }}/sreya-$(date +%Y-%m-%d)" --project="${{ secrets.FIREBASE_PROJECT_ID }}"
