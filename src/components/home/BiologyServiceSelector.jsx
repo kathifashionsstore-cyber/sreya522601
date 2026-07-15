@@ -10,7 +10,8 @@ import {
   OvulationCalendarIcon, 
   DnaIcon 
 } from '../shared/FertilityIcons'
-import { getServiceUrl, subServices } from '../../mockData/services'
+import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
+import { getServiceUrl, getLockedSubServices } from '../../mockData/services'
 
 const selectorIconMap = {
   ivf: EmbryoIcon,
@@ -36,8 +37,11 @@ function subtitleFor(service) {
 }
 
 export function BiologyServiceSelector() {
-  const selectorItems = subServices
-    .filter((service) => service.category === 'fertility-treatments')
+  const { data: dbSubServices } = useFirestoreCollection('subServices', [])
+  const allSubServices = getLockedSubServices(dbSubServices)
+
+  const selectorItems = allSubServices
+    .filter((service) => (service.categoryId || service.category) === 'fertility-treatments' && service.active !== false)
     .sort((a, b) => (a.order || 0) - (b.order || 0))
 
   return (

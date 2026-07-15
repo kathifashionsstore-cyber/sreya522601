@@ -44,7 +44,7 @@ function removeByPath(source, path) {
 }
 
 function emptyForField(field) {
-  if (field.type === 'repeatableGroup' || field.type === 'richBulletList') return []
+  if (field.type === 'repeatableGroup' || field.type === 'richBulletList' || field.type === 'imageList') return []
   if (field.type === 'boolean') return false
   if (field.type === 'number') return ''
   return ''
@@ -244,6 +244,90 @@ function RichBulletList({ value = [], onChange, addLabel = 'Add bullet' }) {
   )
 }
 
+function ImageList({ field, value = [], onChange }) {
+  const items = Array.isArray(value) ? value : []
+  const maxItems = field.maxItems || 10
+  const label = field.itemLabel || field.label || 'Image'
+
+  function update(index, nextUrl) {
+    if (nextUrl && items.includes(nextUrl)) {
+      alert('This image is already in the list.')
+      return
+    }
+    onChange(items.map((item, itemIndex) => (itemIndex === index ? nextUrl : item)))
+  }
+
+  function move(index, direction) {
+    const target = index + direction
+    if (target < 0 || target >= items.length) return
+    const next = [...items]
+    const [removed] = next.splice(index, 1)
+    next.splice(target, 0, removed)
+    onChange(next)
+  }
+
+  function remove(index) {
+    onChange(items.filter((_, itemIndex) => itemIndex !== index))
+  }
+
+  return (
+    <div className="grid gap-3">
+      {items.map((item, index) => (
+        <div key={index} className="flex flex-col gap-3 rounded-lg border border-slate-100 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-1 items-center gap-4">
+            <span className="text-xs font-black text-brand-navy">{label} {index + 1}</span>
+            <div className="flex-1">
+              <ImageField
+                field={{ label: `${label} ${index + 1}` }}
+                value={item || ''}
+                onChange={(nextUrl) => update(index, nextUrl)}
+              />
+            </div>
+          </div>
+          <div className="flex gap-1 self-end sm:self-center">
+            <button
+              type="button"
+              onClick={() => move(index, -1)}
+              className="grid size-10 place-items-center rounded-lg bg-white text-slate-500 shadow-soft border border-slate-200/50 hover:bg-slate-50 disabled:opacity-30"
+              aria-label="Move up"
+              disabled={index === 0}
+            >
+              <ChevronUp className="size-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => move(index, 1)}
+              className="grid size-10 place-items-center rounded-lg bg-white text-slate-500 shadow-soft border border-slate-200/50 hover:bg-slate-50 disabled:opacity-30"
+              aria-label="Move down"
+              disabled={index === items.length - 1}
+            >
+              <ChevronDown className="size-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => remove(index)}
+              className="grid size-10 place-items-center rounded-lg bg-white text-rose-600 shadow-soft border border-slate-200/50 hover:bg-rose-50"
+              aria-label="Delete image"
+            >
+              <Trash2 className="size-4" />
+            </button>
+          </div>
+        </div>
+      ))}
+      {items.length < maxItems && (
+        <Button
+          type="button"
+          variant="secondary"
+          className="w-fit"
+          onClick={() => onChange([...items, ''])}
+        >
+          <Plus className="size-4" /> Add Image
+        </Button>
+      )}
+    </div>
+  )
+}
+
 function RepeatableGroup({ field, value = [], onChange }) {
   const items = Array.isArray(value) ? value : []
   const childFields = field.fields || []
@@ -349,6 +433,7 @@ function FieldControl({ field, value, onChange }) {
   }
   if (field.type === 'richBulletList') return <RichBulletList value={value} onChange={onChange} addLabel={field.addLabel} />
   if (field.type === 'repeatableGroup') return <RepeatableGroup field={field} value={value} onChange={onChange} />
+  if (field.type === 'imageList') return <ImageList field={field} value={value} onChange={onChange} />
   if (field.type === 'colorToken') {
     return (
       <div className="flex gap-2">

@@ -367,20 +367,15 @@ export function subServiceBaseSchema(categoryOptions = []) {
       ],
     },
     {
-      title: 'Hero Slideshow',
-      description: 'Repeatable slideshow of images and headings at the top of the service page (2-second rotation). If empty, the page will fall back to the single hero image/heading above.',
+      title: 'Hero Slider Images',
+      description: 'Upload up to 10 images for the animated hero section slider on the right side of the page.',
       fields: [
         {
-          name: 'heroSlides',
-          label: 'Hero Slides',
-          type: 'repeatableGroup',
-          itemLabel: 'Slide',
-          addLabel: 'Add Hero Slide',
-          fields: [
-            { name: 'imageUrl', label: 'Slide Image', type: 'image', required: true },
-            { name: 'title', label: 'Slide Heading', type: 'text' },
-            { name: 'subtitle', label: 'Slide Subtext', type: 'textarea' }
-          ]
+          name: 'heroImages',
+          label: 'Hero Images',
+          type: 'imageList',
+          itemLabel: 'Slide Image',
+          maxItems: 10,
         }
       ]
     },

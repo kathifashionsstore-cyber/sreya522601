@@ -246,29 +246,74 @@ function buildVideoEmbedUrl(url = '') {
   const [activeTab, setActiveTab] = useState(0)
   const [activeSection, setActiveSection] = useState('overview')
 
-  const heroSlides = useMemo(() => {
-    if (Array.isArray(service.heroSlides) && service.heroSlides.length > 0) {
-      return service.heroSlides
+  // Compile unique flat list of slide image URLs:
+  // cover image (heroImage) first, followed by non-duplicate items in heroImages array
+  const heroImagesList = useMemo(() => {
+    const list = []
+    
+    if (service.heroImage && typeof service.heroImage === 'string' && service.heroImage.trim() !== '') {
+      list.push(service.heroImage.trim())
     }
-    return [
-      {
-        imageUrl: service.heroImage,
-        title: service.heroHeading || service.title,
-        subtitle: service.heroSubtitle || service.shortDescription
-      }
-    ]
-  }, [service])
+    
+    if (Array.isArray(service.heroImages)) {
+      service.heroImages.forEach((img) => {
+        if (img && typeof img === 'string' && img.trim() !== '') {
+          const trimmed = img.trim()
+          if (!list.includes(trimmed)) {
+            list.push(trimmed)
+          }
+        }
+      })
+    }
+    
+    // Final fallback if list remains empty
+    if (list.length === 0) {
+      list.push('https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80')
+    }
+    
+    return list
+  }, [service.heroImage, service.heroImages])
 
   const [slideIndex, setSlideIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [imagesLoaded, setImagesLoaded] = useState({})
 
+  const handleImageLoad = (idx) => {
+    setImagesLoaded((prev) => ({ ...prev, [idx]: true }))
+  }
+
+  // Preload next image in list to minimize delay on transition
   useEffect(() => {
-    if (heroSlides.length <= 1 || isPaused) return
+    if (heroImagesList.length <= 1) return
+    const nextIndex = (slideIndex + 1) % heroImagesList.length
+    const img = new Image()
+    img.src = heroImagesList[nextIndex]
+  }, [slideIndex, heroImagesList])
+
+  // Autoplay intervals
+  useEffect(() => {
+    if (heroImagesList.length <= 1 || isPaused) return
     const timer = setInterval(() => {
-      setSlideIndex((prev) => (prev + 1) % heroSlides.length)
+      setSlideIndex((prev) => (prev + 1) % heroImagesList.length)
     }, 2000)
     return () => clearInterval(timer)
-  }, [heroSlides, isPaused])
+  }, [heroImagesList.length, isPaused])
+
+  // Keyboard navigation for accessibility
+  useEffect(() => {
+    if (heroImagesList.length <= 1) return
+    
+    function handleKeyDown(event) {
+      if (event.key === 'ArrowLeft') {
+        setSlideIndex((prev) => (prev - 1 + heroImagesList.length) % heroImagesList.length)
+      } else if (event.key === 'ArrowRight') {
+        setSlideIndex((prev) => (prev + 1) % heroImagesList.length)
+      }
+    }
+    
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [heroImagesList.length])
 
   const { settings } = useSiteSettings()
   const { data: dbDoctors } = useFirestoreCollection('doctors', [])
@@ -422,31 +467,10 @@ function buildVideoEmbedUrl(url = '') {
 
       <div className="bg-bg-alt">
         {/* ================= SECTION 1: HERO ================= */}
-        <section 
-          className="relative min-h-[90vh] flex items-center bg-brand-navy overflow-hidden select-none"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {/* Parallax Background Slideshow */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none">
-            <AnimatePresence mode="wait">
-              <motion.img 
-                key={slideIndex}
-                src={heroSlides[slideIndex].imageUrl} 
-                alt={heroSlides[slideIndex].title || service.title}
-                className="absolute inset-0 w-full h-full object-cover opacity-35 scale-105"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.38 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8 }}
-              />
-            </AnimatePresence>
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/95 to-brand-navy/60" />
-          </div>
-
-          <div className="relative z-10 w-full mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24 text-white">
+        <section className="relative min-h-[85vh] lg:min-h-[75vh] flex items-center bg-gradient-to-br from-[#173A38] to-[#0d2221] overflow-hidden select-none py-12 lg:py-16">
+          <div className="relative z-10 w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-white">
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-350 mb-6">
+            <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-350 mb-8">
               <Link to="/" className="hover:text-primary transition-colors">Home</Link>
               <ChevronRight className="size-3.5 text-slate-500" />
               <Link to="/services" className="hover:text-primary transition-colors">Services</Link>
@@ -456,98 +480,144 @@ function buildVideoEmbedUrl(url = '') {
               <span className="text-white">{service.title}</span>
             </nav>
 
-            <div className="max-w-3xl space-y-6">
-              <span className="eyebrow-badge bg-primary-light/20 text-primary-light border border-primary-light/30">
-                Advanced Fertility Care
-              </span>
-              
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={slideIndex}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.35 }}
-                  className="space-y-6"
-                >
-                  <h1 className="text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl text-white font-display">
-                    {heroSlides[slideIndex].title || service.title}
-                  </h1>
-                  <p className="text-xl font-medium text-slate-205 leading-relaxed font-body">
-                    {heroSlides[slideIndex].subtitle || service.heroSubtitle || service.shortDescription}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
+            <div className="grid gap-12 lg:grid-cols-[1fr_45%] lg:items-center">
+              {/* Left Column: Content */}
+              <div className="space-y-6">
+                <span className="eyebrow-badge bg-primary-light/20 text-primary-light border border-primary-light/30">
+                  Advanced Fertility Care
+                </span>
+                
+                <h1 className="text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl text-white font-display leading-tight">
+                  {service.title}
+                </h1>
+                <p className="text-xl font-medium text-slate-205 leading-relaxed font-body">
+                  {service.heroSubtitle || service.shortDescription}
+                </p>
 
-              {/* CTAs */}
-              <div className="mt-8 flex flex-wrap gap-4">
-                <button
-                  onClick={() => handleSubNavClick('appointment-booking')}
-                  className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-brand-rose px-6 py-3 text-sm font-black text-white hover:bg-brand-rose-dark transition shadow-lg hover:shadow-xl"
-                >
-                  Book Appointment <ArrowRight className="size-4" />
-                </button>
-                <a
-                  href={`tel:${settings.phoneMobile}`}
-                  className="inline-flex min-h-12 items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white hover:bg-white/20 transition backdrop-blur-sm"
-                >
-                  <Phone className="size-4 text-primary-light" /> Call Support
-                </a>
+                {/* CTAs */}
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <button
+                    onClick={() => handleSubNavClick('appointment-booking')}
+                    className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-brand-rose px-6 py-3 text-sm font-black text-white hover:bg-brand-rose-dark transition shadow-lg hover:shadow-xl"
+                  >
+                    Book Appointment <ArrowRight className="size-4" />
+                  </button>
+                  <a
+                    href={`tel:${settings.phoneMobile}`}
+                    className="inline-flex min-h-12 items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3 text-sm font-black text-white hover:bg-white/20 transition backdrop-blur-sm"
+                  >
+                    <Phone className="size-4 text-primary-light" /> Call Support
+                  </a>
+                </div>
+
+                {/* Trust Indicators Row */}
+                <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6 text-xs font-bold text-slate-350 tracking-wide uppercase">
+                  <span className="flex items-center gap-2">
+                    <UserCheck className="size-4 text-brand-rose" /> Experienced Specialist
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <Layers className="size-4 text-brand-teal" /> Advanced Diagnostics
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <Sparkles className="size-4 text-brand-rose" /> Personalised Treatment
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <Activity className="size-4 text-brand-teal" /> Patient-First Care
+                  </span>
+                </div>
               </div>
 
-              {/* Trust Indicators Row */}
-              <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-6 text-xs font-bold text-slate-350 tracking-wide uppercase">
-                <span className="flex items-center gap-2">
-                  <UserCheck className="size-4 text-brand-rose" /> Experienced Specialist
-                </span>
-                <span className="flex items-center gap-2">
-                  <Layers className="size-4 text-brand-teal" /> Advanced Diagnostics
-                </span>
-                <span className="flex items-center gap-2">
-                  <Sparkles className="size-4 text-brand-rose" /> Personalised Treatment
-                </span>
-                <span className="flex items-center gap-2">
-                  <Activity className="size-4 text-brand-teal" /> Patient-First Care
-                </span>
+              {/* Right Column: Image Slider */}
+              <div className="flex justify-center lg:justify-end">
+                <div 
+                  className="group/slider relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-square w-full max-w-lg lg:max-w-xl overflow-hidden rounded-[24px] border border-white/10 bg-white/5 shadow-2xl transition-all duration-500 hover:-translate-y-1 hover:shadow-primary/10 hover:border-white/20"
+                  onMouseEnter={() => setIsPaused(true)}
+                  onMouseLeave={() => setIsPaused(false)}
+                >
+                  <div className="absolute inset-0 w-full h-full">
+                    <AnimatePresence mode="popLayout">
+                      <motion.img 
+                        key={slideIndex}
+                        src={heroImagesList[slideIndex]} 
+                        alt={`${service.title} - View ${slideIndex + 1}`}
+                        variants={{
+                          initial: { opacity: 0, scale: 1.08 },
+                          animate: { 
+                            opacity: 1, 
+                            scale: 1.02,
+                            transition: {
+                              opacity: { duration: 0.85, ease: 'easeInOut' },
+                              scale: { duration: 2.2, ease: 'easeOut' },
+                            }
+                          },
+                          exit: { opacity: 0, transition: { duration: 0.85, ease: 'easeInOut' } }
+                        }}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        onLoad={() => handleImageLoad(slideIndex)}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </AnimatePresence>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/25 pointer-events-none" />
+                    <div className="absolute inset-0 bg-white/[0.02] backdrop-blur-[0.5px] pointer-events-none" />
+                  </div>
+
+                  {/* Skeleton Loader */}
+                  {!imagesLoaded[slideIndex] && (
+                    <div className="absolute inset-0 bg-slate-800/80 animate-pulse flex items-center justify-center">
+                      <div className="w-10 h-10 border-4 border-white/20 border-t-white/80 rounded-full animate-spin" />
+                    </div>
+                  )}
+
+                  {/* Dots & Nav Arrows */}
+                  {heroImagesList.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSlideIndex((prev) => (prev - 1 + heroImagesList.length) % heroImagesList.length)
+                        }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 flex size-11 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-md border border-white/20 opacity-0 group-hover/slider:opacity-100 transition-all duration-300 hover:bg-black/55 hover:scale-105 active:scale-95 z-20"
+                        aria-label="Previous Slide"
+                      >
+                        <ChevronRight className="size-5 rotate-180" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSlideIndex((prev) => (prev + 1) % heroImagesList.length)
+                        }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 flex size-11 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-md border border-white/20 opacity-0 group-hover/slider:opacity-100 transition-all duration-300 hover:bg-black/55 hover:scale-105 active:scale-95 z-20"
+                        aria-label="Next Slide"
+                      >
+                        <ChevronRight className="size-5" />
+                      </button>
+
+                      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+                        {heroImagesList.map((_, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setSlideIndex(idx)
+                            }}
+                            className={`h-2 rounded-full transition-all duration-300 ${
+                              slideIndex === idx ? 'w-6 bg-brand-rose' : 'w-2 bg-white/40 hover:bg-white/80'
+                            }`}
+                            aria-label={`Go to slide ${idx + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Dots & Nav Arrows */}
-          {heroSlides.length > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={() => setSlideIndex((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
-                className="absolute left-4 top-1/2 -translate-y-1/2 grid size-10 place-items-center rounded-full bg-black/25 text-white hover:bg-black/50 border border-white/10 transition z-20"
-                aria-label="Previous Slide"
-              >
-                <ChevronRight className="size-5 rotate-180" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setSlideIndex((prev) => (prev + 1) % heroSlides.length)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 grid size-10 place-items-center rounded-full bg-black/25 text-white hover:bg-black/50 border border-white/10 transition z-20"
-                aria-label="Next Slide"
-              >
-                <ChevronRight className="size-5" />
-              </button>
-
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                {heroSlides.map((_, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setSlideIndex(idx)}
-                    className={`h-2 rounded-full transition-all ${
-                      slideIndex === idx ? 'w-6 bg-brand-rose' : 'w-2 bg-white/40'
-                    }`}
-                    aria-label={`Slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
         </section>
 
         {/* ================= SPECIALIST VIDEO (DIRECTLY UNDER HERO) ================= */}

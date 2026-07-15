@@ -4,7 +4,7 @@ import { Button } from '../components/shared/Button'
 import { ConfirmDialog } from '../components/shared/ConfirmDialog'
 import { useToast } from '../components/shared/Toast'
 import { useAuth } from '../context/AuthContext'
-import { getLockedServiceCategories, getLockedSubServices, getServiceUrl } from '../mockData/services'
+import { getLockedServiceCategories, getLockedSubServices, getServiceUrl, subServices } from '../mockData/services'
 import { saveDocument, updateDocument, useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { DynamicForm } from './DynamicForm'
 import { subServiceBaseSchema, subServiceSectionSchemas } from './formSchemas'
@@ -52,7 +52,7 @@ export function AdminSubServicesV2() {
   const categories = getLockedServiceCategories(categoryData, { includeInactive: true })
   
   const [subTab, setSubTab] = useState('active')
-  const { data } = useFirestoreCollection('subServices', [], 'order', true)
+  const { data, loading } = useFirestoreCollection('subServices', [], 'order', true)
   const allData = getLockedSubServices(data, { includeInactive: true })
   const activeData = allData.filter((item) => subTab === 'deleted' ? item.deletedAt : !item.deletedAt)
   
@@ -62,16 +62,16 @@ export function AdminSubServicesV2() {
       ? activeData
       : activeData.filter((item) => (item.categoryId || item.category) === categoryFilter)
       
-  const [selectedId, setSelectedId] = useState(activeData[0]?.id || '')
+  const [selectedId, setSelectedId] = useState('')
   
   const selected = useMemo(() => {
     if (selectedId === 'new') {
       return { id: 'new', ...newTemplate, order: allData.length + 1 }
     }
-    return activeData.find((item) => item.id === selectedId) || filteredData[0] || activeData[0] || null
-  }, [activeData, filteredData, selectedId, allData.length])
+    return activeData.find((item) => item.id === selectedId) || null
+  }, [activeData, selectedId, allData.length])
 
-  const [form, setForm] = useState(selected ? stripRuntimeFields(selected) : {})
+  const [form, setForm] = useState({})
   const [saving, setSaving] = useState('')
   const [saveVersion, setSaveVersion] = useState(0)
   const [deleteId, setDeleteId] = useState(null)
@@ -104,14 +104,17 @@ export function AdminSubServicesV2() {
     window.setTimeout(() => setSwitching(false), 50)
   }
 
+  // Auto-select the first service on initial load of Firestore data
+  useEffect(() => {
+    if (!loading && activeData.length > 0 && !selectedId) {
+      setSelectedId(activeData[0].id)
+    }
+  }, [loading, activeData, selectedId])
+
   useEffect(() => {
     if (!selected) return
-    // Only update if the user isn't actively switching, keeping data-sync current
-    if (selected.id !== selectedId) {
-      setSelectedId(selected.id)
-      setForm(stripRuntimeFields(selected))
-      setSaveVersion((version) => version + 1)
-    }
+    setForm(stripRuntimeFields(selected))
+    setSaveVersion((version) => version + 1)
   }, [selected?.id])
 
   useEffect(() => {
@@ -143,6 +146,11 @@ export function AdminSubServicesV2() {
       const payload = {
         ...form,
         updatedBy: user?.email || user?.uid || 'admin',
+      }
+
+      if (Array.isArray(payload.heroImages)) {
+        const cleaned = [...new Set(payload.heroImages.filter(img => typeof img === 'string' && img.trim() !== ''))].slice(0, 10)
+        payload.heroImages = cleaned
       }
       
       const docId = isNew ? form.slug.trim().toLowerCase() : selected.id

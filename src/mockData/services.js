@@ -113,6 +113,7 @@ function createService(id, category, subgroup, pageType, title, summary, extras 
     heroHeading: extras.heroHeading || `Expert ${title} ${pageType === 'treatment' ? 'Treatment' : 'Testing'}`,
     heroSubtitle: extras.heroSubtitle || summary,
     heroImage: extras.heroImage || (pageType === 'treatment' ? placeholderImages.lab : placeholderImages.consultation),
+    heroImages: extras.heroImages || [],
     shortDescription: summary,
     overview: extras.overview || [
       `${title} is a specialized clinical procedure performed at Sreya Hospitals & IVF Centre in Narasaraopet. This pathway is led by our fertility specialist to bring clarity and target successful outcomes.`,
@@ -1026,33 +1027,62 @@ export function getLockedSubServices(candidateServices = [], options = {}) {
   const candidates = Array.isArray(candidateServices) ? candidateServices : []
   const includeInactive = options.includeInactive === true
 
-  return subServices
-    .map((locked) => {
-      const candidate = findLockedCandidate(candidates, locked) || {}
-      const normalized = {
-        ...locked,
-        ...candidate,
-        id: locked.id,
-        slug: locked.slug,
-        category: locked.category,
-        categoryId: locked.category,
-        subgroup: locked.subgroup,
-        pageType: locked.pageType,
-        title: normalizeTextFallback(candidate.title, locked.title),
-        shortDescription: normalizeTextFallback(candidate.shortDescription || candidate.tagline, locked.shortDescription),
-        order: candidate.order !== undefined && candidate.order !== '' ? Number(candidate.order) : locked.order,
-        active: candidate.active === false ? false : locked.active !== false,
+  // 1. Process all candidates from Firestore
+  const processedCandidates = candidates.map((candidate) => {
+    // Find if this candidate matches a static locked service by ID, slug, or title
+    const locked = subServices.find((s) => s.id === candidate.id || s.slug === candidate.slug || s.title === candidate.title) || {}
+    
+    const categoryId = candidate.categoryId || candidate.category || locked.category || 'fertility-treatments'
+    const subgroup = candidate.subgroup !== undefined ? candidate.subgroup : locked.subgroup
+    const pageType = candidate.pageType || locked.pageType || (categoryId === 'fertility-testing' ? 'test' : 'treatment')
+    const slug = candidate.slug || locked.slug || candidate.id
+
+    const normalized = {
+      ...locked,
+      ...candidate,
+      id: candidate.id || locked.id,
+      slug: slug,
+      category: categoryId,
+      categoryId: categoryId,
+      subgroup: subgroup || undefined,
+      pageType: pageType,
+      title: normalizeTextFallback(candidate.title, locked.title || 'Untitled Service'),
+      shortDescription: normalizeTextFallback(candidate.shortDescription || candidate.tagline, locked.shortDescription || ''),
+      order: candidate.order !== undefined && candidate.order !== '' ? Number(candidate.order) : (locked.order !== undefined ? locked.order : 99),
+      active: candidate.active === false ? false : (locked.active === false ? false : !candidate.deletedAt),
+    }
+
+    return {
+      ...normalized,
+      seo: {
+        ...locked.seo,
+        ...(candidate.seo || {}),
+        canonicalPath: getServiceUrl(normalized),
+      },
+    }
+  })
+
+  // 2. Add any static locked services that are NOT present in the Firestore candidates list
+  const missingLocked = subServices
+    .filter((locked) => !processedCandidates.some((processed) => processed.id === locked.id || processed.slug === locked.slug))
+    .map((locked) => ({
+      ...locked,
+      seo: {
+        ...locked.seo,
+        canonicalPath: getServiceUrl(locked),
       }
-      return {
-        ...normalized,
-        seo: {
-          ...locked.seo,
-          ...(candidate.seo || {}),
-          canonicalPath: getServiceUrl(normalized),
-        },
-      }
-    })
-    .filter((service) => includeInactive || service.active !== false)
+    }))
+
+  // 3. Merge them together
+  const allServices = [...processedCandidates, ...missingLocked]
+
+  // 4. Filter according to active/deleted parameters
+  return allServices.filter((service) => {
+    if (service.deletedAt) {
+      return includeInactive
+    }
+    return includeInactive || service.active !== false
+  })
 }
 
 export function getLockedServiceDepartments(candidateDepartments = [], options = {}) {
