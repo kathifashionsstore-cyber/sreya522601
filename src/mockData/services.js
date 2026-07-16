@@ -1076,8 +1076,11 @@ export function getLockedSubServices(candidateServices = [], options = {}) {
   // 3. Merge them together
   const allServices = [...processedCandidates, ...missingLocked]
 
-  // 4. Filter according to active/deleted parameters
+  // 4. Filter according to active/deleted parameters and category validity
   return allServices.filter((service) => {
+    const hasValidCategory = serviceCategories.some((cat) => cat.id === service.categoryId || cat.slug === service.categoryId)
+    if (!hasValidCategory) return false
+
     if (service.deletedAt) {
       return includeInactive
     }

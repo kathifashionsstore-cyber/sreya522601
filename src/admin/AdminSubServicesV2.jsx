@@ -249,7 +249,7 @@ export function AdminSubServicesV2() {
         </div>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[260px_1fr] xl:grid-cols-[260px_1fr_480px]">
+      <div className="grid gap-5 lg:grid-cols-[260px_1fr]">
         <aside className="h-fit rounded-lg bg-white p-4 shadow-soft">
           <div className="grid grid-cols-2 gap-2 rounded-lg bg-slate-100 p-1 text-sm font-black mb-4">
             <button 
@@ -398,28 +398,6 @@ export function AdminSubServicesV2() {
             <div className="rounded-lg bg-white p-6 text-sm text-slate-600 shadow-soft">No sub-service selected.</div>
           )}
         </div>
-
-        {/* Live Preview Iframe Panel */}
-        {selected && selected.id !== 'new' && (
-          <div className="hidden xl:block">
-            <div className="sticky top-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <h2 className="font-black text-brand-navy">Live Page Preview</h2>
-                <span className="rounded bg-brand-teal/10 px-2 py-0.5 text-[10px] font-black text-brand-teal uppercase tracking-wider animate-pulse">
-                  Auto-refreshes on Save
-                </span>
-              </div>
-              <div className="relative rounded-xl border border-slate-200 bg-slate-100 p-2 shadow-soft">
-                <iframe
-                  key={`${selected.id}-${saveVersion}`}
-                  src={previewHref}
-                  className="w-full h-[72vh] rounded-lg border border-slate-200 bg-white"
-                  title="Live Preview"
-                />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
       
       <ConfirmDialog
