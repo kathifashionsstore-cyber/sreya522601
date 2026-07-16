@@ -68,6 +68,7 @@ export default function AdminDoctors() {
           path="doctors"
           fallback={doctors}
           schema={doctorSchema}
+          orderField={null}
           description="Doctor profile, photo, awards, memberships, timings, and FAQs."
         />
       ) : (

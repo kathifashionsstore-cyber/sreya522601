@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { DoctorProfileCard } from '../components/doctors/DoctorProfileCard'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -11,8 +11,11 @@ import { physicianJsonLd } from '../lib/seo'
 
 export default function Doctors() {
   const { settings } = useSiteSettings()
-  const { data: dbDoctors } = useFirestoreCollection('doctors', fallbackDoctors)
-  const items = dbDoctors && dbDoctors.length ? dbDoctors : fallbackDoctors
+  const { data: dbDoctors } = useFirestoreCollection('doctors', fallbackDoctors, null)
+  const items = useMemo(() => {
+    const rawItems = dbDoctors && dbDoctors.length ? dbDoctors : fallbackDoctors
+    return [...rawItems].sort((a, b) => (a.order || 0) - (b.order || 0))
+  }, [dbDoctors])
   const leadDoctor = items[0] || fallbackDoctors[0]
   const banner = settings.pageBanners?.doctors || {}
   const journeySteps = Array.isArray(leadDoctor?.journeySteps) && leadDoctor.journeySteps.length

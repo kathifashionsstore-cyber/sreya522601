@@ -316,11 +316,13 @@ function buildVideoEmbedUrl(url = '') {
   }, [heroImagesList.length])
 
   const { settings } = useSiteSettings()
-  const { data: dbDoctors } = useFirestoreCollection('doctors', [])
+  const { data: dbDoctors } = useFirestoreCollection('doctors', [], null)
   const { data: dbSubServices } = useFirestoreCollection('subServices', [])
   const { data: dbFacilities } = useFirestoreCollection('facilities', [])
 
-  const activeDoctors = dbDoctors
+  const activeDoctors = useMemo(() => {
+    return [...dbDoctors].sort((a, b) => (a.order || 0) - (b.order || 0))
+  }, [dbDoctors])
   const leadDoctor = activeDoctors[0]
 
   const allSubServices = getLockedSubServices(dbSubServices)

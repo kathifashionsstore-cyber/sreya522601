@@ -43,7 +43,10 @@ export function AdminCollectionEditor({
   allowDelete = true,
 }) {
   const { data: rawData } = useFirestoreCollection(path, fallback, orderField, true)
-  const data = useMemo(() => (transformData ? transformData(rawData) : rawData), [rawData, transformData])
+  const data = useMemo(() => {
+    const raw = transformData ? transformData(rawData) : rawData
+    return [...raw].sort((a, b) => (a.order || 0) - (b.order || 0))
+  }, [rawData, transformData])
   const [tab, setTab] = useState('active')
   const visibleData = data.filter((item) => (tab === 'deleted' ? item.deletedAt : !item.deletedAt))
   const [selectedId, setSelectedId] = useState(visibleData[0]?.id || '')

@@ -333,7 +333,7 @@ function ReceiptDocument({ appointment, settings, doctor, logoUrl, doctorPhotoUr
 
 export function ReceiptPreview({ appointment }) {
   const { settings } = useSiteSettings()
-  const { data: dbDoctors } = useFirestoreCollection('doctors', fallbackDoctors)
+  const { data: dbDoctors } = useFirestoreCollection('doctors', fallbackDoctors, null)
   const [qrDataUrl, setQrDataUrl] = useState('')
   const qrCanvasRef = useRef(null)
 

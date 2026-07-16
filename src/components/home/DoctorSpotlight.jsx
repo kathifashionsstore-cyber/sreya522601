@@ -1,11 +1,16 @@
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Award, Users, ChevronRight } from 'lucide-react'
 import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
 import { doctors as fallbackDoctors } from '../../data/seed'
 
 export function DoctorSpotlight() {
-  const { data: dbDoctors } = useFirestoreCollection('doctors', fallbackDoctors)
-  const doctor = dbDoctors && dbDoctors.length ? dbDoctors[0] : fallbackDoctors[0]
+  const { data: dbDoctors } = useFirestoreCollection('doctors', fallbackDoctors, null)
+  const doctor = useMemo(() => {
+    const items = dbDoctors && dbDoctors.length ? dbDoctors : fallbackDoctors
+    const sorted = [...items].sort((a, b) => (a.order || 0) - (b.order || 0))
+    return sorted[0]
+  }, [dbDoctors])
 
   const docPhoto = doctor.photoUrl || 'https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&w=800&q=80'
   const name = doctor.name || 'Dr. Vasanta Kiran Mekala'
