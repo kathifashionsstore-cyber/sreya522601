@@ -30,15 +30,24 @@ export function ServicesCarousel() {
   const { data: dbSubServices } = useFirestoreCollection('subServices', [])
   const allSubServices = getLockedSubServices(dbSubServices)
 
-  // Filter sub-services: featured flags first, fallback to fertility treatments
   const carouselItems = useMemo(() => {
     const featured = allSubServices.filter((s) => s.featured === true && s.active !== false)
-    if (featured.length > 0) {
-      return featured.sort((a, b) => (a.order || 0) - (b.order || 0))
-    }
-    return allSubServices
-      .filter((s) => s.category === 'fertility-treatments' && s.active !== false)
-      .sort((a, b) => (a.order || 0) - (b.order || 0))
+    const treatments = allSubServices.filter((s) => s.category === 'fertility-treatments' && s.active !== false)
+
+    // Merge featured ones first, then add non-featured ones to fill up to 9 items
+    const merged = [...featured]
+    treatments.forEach((service) => {
+      if (!merged.some((m) => m.id === service.id || m.slug === service.slug)) {
+        merged.push(service)
+      }
+    })
+
+    return merged
+      .sort((a, b) => {
+        if (a.featured && !b.featured) return -1
+        if (!a.featured && b.featured) return 1
+        return (a.order || 0) - (b.order || 0)
+      })
       .slice(0, 9)
   }, [allSubServices])
 

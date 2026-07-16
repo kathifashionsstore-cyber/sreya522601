@@ -16,9 +16,23 @@ export function ServicesGrid2() {
   const activeCategories = getLockedServiceCategories(dbCategories)
   const allSubServices = getLockedSubServices(dbSubServices)
 
-  const list = allSubServices
-    .filter((service) => service.featured === true && service.active !== false)
-    .sort((a, b) => (a.order || 0) - (b.order || 0))
+  const featured = allSubServices.filter((s) => s.featured === true && s.active !== false)
+  const treatments = allSubServices.filter((s) => s.active !== false)
+
+  // Merge featured ones first, then add non-featured ones to fill up to 6 items
+  const merged = [...featured]
+  treatments.forEach((service) => {
+    if (!merged.some((m) => m.id === service.id || m.slug === service.slug)) {
+      merged.push(service)
+    }
+  })
+
+  const list = merged
+    .sort((a, b) => {
+      if (a.featured && !b.featured) return -1
+      if (!a.featured && b.featured) return 1
+      return (a.order || 0) - (b.order || 0)
+    })
     .slice(0, 6)
 
   return (
