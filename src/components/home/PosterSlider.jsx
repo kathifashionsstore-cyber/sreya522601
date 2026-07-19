@@ -30,7 +30,7 @@ export function PosterSlider() {
   return (
     <section className="relative w-full overflow-hidden bg-brand-cream py-6">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl bg-slate-900 shadow-soft border border-slate-100/50 aspect-[21/9] sm:aspect-[21/8] md:aspect-[21/7] lg:aspect-[21/6] flex items-center justify-center">
+        <div className="relative overflow-hidden rounded-3xl bg-slate-900 shadow-soft border border-slate-100/50 aspect-square w-full max-w-[320px] sm:max-w-[400px] md:max-w-[480px] mx-auto flex items-center justify-center">
           <AnimatePresence mode="wait">
             <motion.img
               key={currentIndex}

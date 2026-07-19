@@ -1,0 +1,5 @@
+Drop your team files here:
+- team-photo.jpg (for static photo display or fallback video poster)
+- team-video.mp4 (for autoplaying video display)
+
+If both are uploaded, the video will play, and the photo will be used as the preview poster while the video loads.
