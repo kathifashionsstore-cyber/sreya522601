@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Download, Plus, RotateCcw } from 'lucide-react'
+import { Download, Plus, RotateCcw, GripVertical } from 'lucide-react'
 import { ConfirmDialog } from '../components/shared/ConfirmDialog'
 import { Button } from '../components/shared/Button'
 import { EmptyState } from '../components/shared/EmptyState'
@@ -58,6 +58,48 @@ export function AdminCollectionEditor({
   const [status, setStatus] = useState('')
   const { push } = useToast()
   const { user } = useAuth()
+  const [draggedIndex, setDraggedIndex] = useState(null)
+
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index)
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.setData('text/plain', index)
+  }
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault()
+  }
+
+  const handleDrop = async (e, targetIndex) => {
+    e.preventDefault()
+    if (draggedIndex === null || draggedIndex === targetIndex) return
+
+    const nextData = [...visibleData]
+    const [removed] = nextData.splice(draggedIndex, 1)
+    nextData.splice(targetIndex, 0, removed)
+
+    const updatedItems = nextData.map((item, idx) => ({
+      ...item,
+      order: idx + 1
+    }))
+
+    try {
+      push('Saving new order...', 'info')
+      const promises = updatedItems.map(item => 
+        updateDocument(path, item.id, { 
+          order: item.order,
+          updatedBy: user?.email || user?.uid || 'admin'
+        })
+      )
+      await Promise.all(promises)
+      push('Reordered successfully!', 'success')
+    } catch (err) {
+      console.error('[REORDER ERROR]', err)
+      push('Failed to save order: ' + err.message, 'error')
+    }
+    setDraggedIndex(null)
+  }
+
   const sections = typeof schema === 'function' ? schema() : schema
 
   const selectedStr = JSON.stringify(selected || null)
@@ -162,16 +204,30 @@ export function AdminCollectionEditor({
           </div>
           <h2 className="mt-4 font-black text-brand-navy">Records</h2>
           <div className="mt-4 grid max-h-[70vh] gap-2 overflow-auto pr-1">
-            {visibleData.length ? visibleData.map((item) => (
-              <button
+            {visibleData.length ? visibleData.map((item, index) => (
+              <div
                 key={item.id}
-                type="button"
+                draggable={tab === 'active'}
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDrop={(e) => handleDrop(e, index)}
                 onClick={() => setSelectedId(item.id)}
-                className={`rounded-lg px-3 py-2 text-left text-sm font-bold ${selected?.id === item.id ? 'bg-brand-blush text-brand-rose' : 'bg-slate-50 text-brand-navy'}`}
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-bold group cursor-pointer transition-colors ${
+                  selected?.id === item.id 
+                    ? 'bg-brand-blush text-brand-rose' 
+                    : 'bg-slate-50 text-brand-navy hover:bg-slate-100/80'
+                }`}
               >
-                <span>{itemLabel(item)}</span>
-                {formatEdited(item) ? <span className="mt-1 block text-[0.68rem] font-semibold text-slate-500">{formatEdited(item)}</span> : null}
-              </button>
+                {tab === 'active' && (
+                  <GripVertical className="size-4 shrink-0 text-slate-400 cursor-grab active:cursor-grabbing group-hover:text-slate-600 transition-colors" />
+                )}
+                <div className="flex-1 min-w-0">
+                  <span className="block truncate">{itemLabel(item)}</span>
+                  {formatEdited(item) ? (
+                    <span className="mt-1 block text-[0.68rem] font-semibold text-slate-500">{formatEdited(item)}</span>
+                  ) : null}
+                </div>
+              </div>
             )) : <EmptyState title={tab === 'deleted' ? 'No recently deleted records' : 'No records'} />}
           </div>
         </aside>

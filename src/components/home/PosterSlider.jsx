@@ -16,50 +16,63 @@ export function PosterSlider() {
     .sort((a, b) => (a.order || 0) - (b.order || 0))
 
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
 
   useEffect(() => {
-    if (banners.length <= 1) return
+    if (banners.length <= 1 || isPaused) return
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % banners.length)
     }, 2000)
     return () => clearInterval(timer)
-  }, [banners.length])
+  }, [banners.length, isPaused])
 
   if (!banners.length) return null
 
   return (
-    <section className="relative w-full overflow-hidden bg-brand-cream py-6">
+    <section className="relative w-full overflow-hidden bg-brand-cream py-10 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl bg-slate-900 shadow-soft border border-slate-100/50 aspect-square w-full max-w-[320px] sm:max-w-[400px] md:max-w-[480px] mx-auto flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={currentIndex}
-              src={banners[currentIndex].imageUrl}
-              alt="Promotional Banner"
-              className="absolute inset-0 h-full w-full object-cover"
-              initial={{ opacity: 0, scale: 1.02 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-            />
-          </AnimatePresence>
-          {/* Subtle indicator dots */}
-          {banners.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-1.5 bg-black/30 px-3 py-1.5 rounded-full backdrop-blur-sm">
-              {banners.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentIndex(idx)}
-                  className={`size-2 rounded-full transition-all duration-205 ${
-                    currentIndex === idx ? 'bg-white w-4' : 'bg-white/40 hover:bg-white/70'
-                  }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
-            </div>
-          )}
+        <div 
+          className="mx-auto w-full max-w-[500px] aspect-square p-3 sm:p-4 bg-white rounded-[24px] shadow-2xl border border-slate-100/80 flex flex-col justify-between"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+        >
+          <div className="relative w-full h-full overflow-hidden rounded-[16px] bg-slate-900">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentIndex}
+                src={banners[currentIndex].imageUrl}
+                alt="Promotional Banner"
+                className="absolute inset-0 h-full w-full object-cover"
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              />
+            </AnimatePresence>
+          </div>
         </div>
+
+        {/* Small dot indicators below the frame */}
+        {banners.length > 1 && (
+          <div className="mt-6 flex justify-center gap-2">
+            {banners.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  currentIndex === idx 
+                    ? 'bg-[#087f8c] w-6' 
+                    : 'bg-slate-300 hover:bg-slate-400 w-2.5'
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
 }
+
