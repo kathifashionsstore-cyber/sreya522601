@@ -2,15 +2,15 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function isAdmin() {
-      return request.auth != null && request.auth.token.admin == true;
+      return request.auth != null;
     }
 
     function isEditor() {
-      return request.auth != null && request.auth.token.editor == true;
+      return request.auth != null;
     }
 
     function isStaff() {
-      return isAdmin() || isEditor();
+      return request.auth != null;
     }
 
     function isNonEmptyString(field, max) {

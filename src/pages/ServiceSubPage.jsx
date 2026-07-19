@@ -1,6 +1,7 @@
 import { Navigate, useParams } from 'react-router-dom'
 import { ServiceDetailLayout } from '../components/services/ServiceDetailLayout'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
+import { IVFLoader } from '../components/shared/IVFLoader'
 import {
   getLockedServiceCategories,
   getLockedSubServices,
@@ -15,8 +16,12 @@ export default function ServiceSubPage({ overrideSlug }) {
   const resolvedCategorySlug = categoryParam
   const resolvedServiceSlug = overrideSlug || slugParam
 
-  const { data: dbCategories } = useFirestoreCollection('serviceCategories', [])
-  const { data: dbSubServices } = useFirestoreCollection('subServices', [])
+  const { data: dbCategories, loading: catLoading } = useFirestoreCollection('serviceCategories', [])
+  const { data: dbSubServices, loading: subLoading } = useFirestoreCollection('subServices', [])
+
+  if (catLoading || subLoading) {
+    return <IVFLoader />
+  }
 
   const categories = getLockedServiceCategories(dbCategories)
   const subServices = getLockedSubServices(dbSubServices)

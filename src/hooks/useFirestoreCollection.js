@@ -13,8 +13,26 @@ import {
 } from 'firebase/firestore'
 import { db } from '../lib/firebase'
 
-function normalizeSnapshot(snapshot, includeDeleted = false) {
-  const docs = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }))
+function normalizeSnapshot(snapshot, includeDeleted = false, orderField = null) {
+  let docs = snapshot.docs.map((item) => ({ id: item.id, ...item.data() }))
+  
+  if (orderField) {
+    docs.sort((a, b) => {
+      const valA = a[orderField]
+      const valB = b[orderField]
+      
+      const aVal = valA?.toDate ? valA.toDate().getTime() : valA
+      const bVal = valB?.toDate ? valB.toDate().getTime() : valB
+      
+      if (aVal === undefined || aVal === null) return 1
+      if (bVal === undefined || bVal === null) return -1
+      
+      if (aVal < bVal) return -1
+      if (aVal > bVal) return 1
+      return 0
+    })
+  }
+
   return includeDeleted ? docs : docs.filter((item) => !item.deletedAt)
 }
 
@@ -31,12 +49,12 @@ export function useFirestoreCollection(path, fallback = [], orderField = 'order'
     try {
       console.log(`[FIRESTORE READ LISTENTING] path: "${path}"`)
       const ref = collection(db, path)
-      const q = orderField ? query(ref, orderBy(orderField, 'asc')) : ref
+      const q = ref
       unsubscribe = onSnapshot(
         q,
         (snapshot) => {
           if (!active) return
-          const next = normalizeSnapshot(snapshot, includeDeleted)
+          const next = normalizeSnapshot(snapshot, includeDeleted, orderField)
           console.log(`[FIRESTORE READ SUCCESS] path: "${path}", count: ${next.length}`)
           setData(next.length ? next : fallback)
           setLoading(false)

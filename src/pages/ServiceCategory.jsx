@@ -5,6 +5,7 @@ import { PageHero } from '../components/shared/PageHero'
 import { SubServiceCard } from '../components/services/SubServiceCard'
 import { Seo } from '../components/shared/Seo'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
+import { IVFLoader } from '../components/shared/IVFLoader'
 import {
   getLockedServiceCategories,
   getLockedSubServices,
@@ -30,8 +31,12 @@ const itemVariants = {
 export default function ServiceCategory() {
   const { category: categoryParam } = useParams()
   
-  const { data: dbCategories } = useFirestoreCollection('serviceCategories', [])
-  const { data: dbSubServices } = useFirestoreCollection('subServices', [])
+  const { data: dbCategories, loading: catLoading } = useFirestoreCollection('serviceCategories', [])
+  const { data: dbSubServices, loading: subLoading } = useFirestoreCollection('subServices', [])
+
+  if (catLoading || subLoading) {
+    return <IVFLoader />
+  }
 
   const categories = getLockedServiceCategories(dbCategories)
   const allSubServices = getLockedSubServices(dbSubServices)

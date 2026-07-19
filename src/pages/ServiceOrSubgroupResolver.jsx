@@ -1,5 +1,6 @@
 import { useParams, Navigate, Link } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
+import { IVFLoader } from '../components/shared/IVFLoader'
 import {
   getLockedServiceCategories,
   getLockedSubServices,
@@ -38,8 +39,12 @@ const subgroupMeta = {
 export default function ServiceOrSubgroupResolver() {
   const { category, slugOrSubgroup } = useParams()
   
-  const { data: dbCategories } = useFirestoreCollection('serviceCategories', [])
-  const { data: dbSubServices } = useFirestoreCollection('subServices', [])
+  const { data: dbCategories, loading: catLoading } = useFirestoreCollection('serviceCategories', [])
+  const { data: dbSubServices, loading: subLoading } = useFirestoreCollection('subServices', [])
+
+  if (catLoading || subLoading) {
+    return <IVFLoader />
+  }
 
   const activeCategories = getLockedServiceCategories(dbCategories)
   const allSubServices = getLockedSubServices(dbSubServices)

@@ -1006,21 +1006,38 @@ export function getLockedServiceCategories(candidateCategories = [], options = {
   const candidates = Array.isArray(candidateCategories) ? candidateCategories : []
   const includeInactive = options.includeInactive === true
 
-  return serviceCategories
-    .map((locked) => {
-      const candidate = findLockedCandidate(candidates, locked) || {}
-      return {
-        ...locked,
-        ...candidate,
-        id: locked.id,
-        slug: locked.slug,
-        title: normalizeTextFallback(candidate.title, locked.title),
-        shortTitle: normalizeTextFallback(candidate.shortTitle, locked.shortTitle),
-        order: candidate.order !== undefined && candidate.order !== '' ? Number(candidate.order) : locked.order,
-        active: candidate.active === false ? false : locked.active !== false,
-      }
-    })
-    .filter((category) => includeInactive || category.active !== false)
+  const processedLocked = serviceCategories.map((locked) => {
+    const candidate = findLockedCandidate(candidates, locked) || {}
+    return {
+      ...locked,
+      ...candidate,
+      id: locked.id,
+      slug: locked.slug,
+      title: normalizeTextFallback(candidate.title, locked.title),
+      shortTitle: normalizeTextFallback(candidate.shortTitle, locked.shortTitle),
+      order: candidate.order !== undefined && candidate.order !== '' ? Number(candidate.order) : locked.order,
+      active: candidate.active === false ? false : locked.active !== false,
+    }
+  })
+
+  const dynamicCategories = candidates
+    .filter((candidate) => !serviceCategories.some((locked) => locked.id === candidate.id || locked.slug === candidate.slug))
+    .map((candidate) => ({
+      id: candidate.id,
+      slug: candidate.slug || candidate.id,
+      title: candidate.title || 'Untitled Category',
+      shortTitle: candidate.shortTitle || candidate.title || 'Untitled',
+      description: candidate.description || '',
+      tagline: candidate.tagline || '',
+      iconKey: candidate.iconKey || 'HelpCircle',
+      accentColor: candidate.accentColor || 'var(--color-category-fertility)',
+      imageUrl: candidate.imageUrl || '',
+      order: candidate.order !== undefined && candidate.order !== '' ? Number(candidate.order) : 99,
+      active: candidate.active !== false && !candidate.deletedAt,
+    }))
+
+  const allCategories = [...processedLocked, ...dynamicCategories]
+  return allCategories.filter((category) => includeInactive || category.active !== false)
 }
 
 export function getLockedSubServices(candidateServices = [], options = {}) {
@@ -1032,10 +1049,11 @@ export function getLockedSubServices(candidateServices = [], options = {}) {
     // Find if this candidate matches a static locked service by ID, slug, or title
     const locked = subServices.find((s) => s.id === candidate.id || s.slug === candidate.slug || s.title === candidate.title) || {}
     
-    const categoryId = candidate.categoryId || candidate.category || locked.category || 'fertility-treatments'
+    // For static locked services, keep their static slug and categoryId to prevent breaking hardcoded routing/icons/menus
+    const slug = locked.slug || candidate.slug || candidate.id
+    const categoryId = locked.category || candidate.categoryId || candidate.category || 'fertility-treatments'
     const subgroup = candidate.subgroup !== undefined ? candidate.subgroup : locked.subgroup
     const pageType = candidate.pageType || locked.pageType || (categoryId === 'fertility-testing' ? 'test' : 'treatment')
-    const slug = candidate.slug || locked.slug || candidate.id
 
     const normalized = {
       ...locked,
@@ -1050,6 +1068,21 @@ export function getLockedSubServices(candidateServices = [], options = {}) {
       shortDescription: normalizeTextFallback(candidate.shortDescription || candidate.tagline, locked.shortDescription || ''),
       order: candidate.order !== undefined && candidate.order !== '' ? Number(candidate.order) : (locked.order !== undefined ? locked.order : 99),
       active: candidate.active === false ? false : (locked.active === false ? false : !candidate.deletedAt),
+      
+      // Initialize required arrays for dynamic services so details pages don't crash
+      overview: candidate.overview || locked.overview || [],
+      classification: Array.isArray(candidate.classification) ? candidate.classification : (Array.isArray(locked.classification) ? locked.classification : []),
+      causes: candidate.causes || locked.causes || [],
+      riskFactors: candidate.riskFactors || locked.riskFactors || [],
+      symptoms: candidate.symptoms || locked.symptoms || [],
+      diagnosisSteps: candidate.diagnosisSteps || locked.diagnosisSteps || [],
+      treatmentOptions: candidate.treatmentOptions || locked.treatmentOptions || [],
+      careJourneySteps: candidate.careJourneySteps || locked.careJourneySteps || [],
+      patientEducationTips: candidate.patientEducationTips || locked.patientEducationTips || [],
+      preventionTips: candidate.preventionTips || locked.preventionTips || [],
+      relevantDiagnosticTests: candidate.relevantDiagnosticTests || locked.relevantDiagnosticTests || [],
+      faqs: candidate.faqs || locked.faqs || [],
+      heroImages: candidate.heroImages || locked.heroImages || []
     }
 
     return {
@@ -1067,6 +1100,19 @@ export function getLockedSubServices(candidateServices = [], options = {}) {
     .filter((locked) => !processedCandidates.some((processed) => processed.id === locked.id || processed.slug === locked.slug))
     .map((locked) => ({
       ...locked,
+      overview: locked.overview || [],
+      classification: locked.classification || [],
+      causes: locked.causes || [],
+      riskFactors: locked.riskFactors || [],
+      symptoms: locked.symptoms || [],
+      diagnosisSteps: locked.diagnosisSteps || [],
+      treatmentOptions: locked.treatmentOptions || [],
+      careJourneySteps: locked.careJourneySteps || [],
+      patientEducationTips: locked.patientEducationTips || [],
+      preventionTips: locked.preventionTips || [],
+      relevantDiagnosticTests: locked.relevantDiagnosticTests || [],
+      faqs: locked.faqs || [],
+      heroImages: locked.heroImages || [],
       seo: {
         ...locked.seo,
         canonicalPath: getServiceUrl(locked),
@@ -1077,8 +1123,18 @@ export function getLockedSubServices(candidateServices = [], options = {}) {
   const allServices = [...processedCandidates, ...missingLocked]
 
   // 4. Filter according to active/deleted parameters and category validity
+  // Dynamically build the list of valid category IDs from all sources:
+  // - Hardcoded serviceCategories IDs and slugs
+  // - Any category IDs present in the candidate services list
+  const validCategoryIds = new Set([
+    ...serviceCategories.map((c) => c.id),
+    ...serviceCategories.map((c) => c.slug),
+    ...candidates.map((s) => s.categoryId).filter(Boolean),
+    ...candidates.map((s) => s.category).filter(Boolean),
+  ])
+
   return allServices.filter((service) => {
-    const hasValidCategory = serviceCategories.some((cat) => cat.id === service.categoryId || cat.slug === service.categoryId)
+    const hasValidCategory = validCategoryIds.has(service.categoryId) || validCategoryIds.has(service.category)
     if (!hasValidCategory) return false
 
     if (service.deletedAt) {
