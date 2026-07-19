@@ -111,11 +111,13 @@ export function AdminSubServicesV2() {
     }
   }, [loading, activeData, selectedId])
 
+  const selectedStr = JSON.stringify(selected || null)
+
   useEffect(() => {
     if (!selected) return
     setForm(stripRuntimeFields(selected))
     setSaveVersion((version) => version + 1)
-  }, [selected])
+  }, [selectedStr])
 
   useEffect(() => {
     if (activeData.length && !activeData.some((item) => item.id === selectedId) && selectedId !== 'new') {

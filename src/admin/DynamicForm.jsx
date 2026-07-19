@@ -54,25 +54,37 @@ function youtubeId(url = '') {
   const value = String(url || '').trim()
   if (!value) return ''
 
+  // If it's a plain 11-character YouTube video ID
+  if (/^[a-zA-Z0-9_-]{11}$/.test(value)) {
+    return value
+  }
+
+  // Try parsing via URL first
   try {
     const parsed = new URL(value)
     const host = parsed.hostname.replace(/^www\./, '')
 
     if (host === 'youtu.be') {
-      return parsed.pathname.split('/').filter(Boolean)[0] || ''
+      const id = parsed.pathname.split('/').filter(Boolean)[0]
+      if (id && id.length === 11) return id
     }
 
     if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'music.youtube.com') {
-      if (parsed.pathname === '/watch') return parsed.searchParams.get('v') || ''
+      const v = parsed.searchParams.get('v') || parsed.searchParams.get('V')
+      if (v && v.length === 11) return v
+
       const [kind, id] = parsed.pathname.split('/').filter(Boolean)
-      if (['embed', 'shorts', 'live'].includes(kind)) return id || ''
+      if (['embed', 'shorts', 'live', 'v'].includes(kind) && id && id.length === 11) {
+        return id
+      }
     }
   } catch {
-    const match = value.match(/(?:youtu\.be\/|youtube\.com\/(?:.*[?&]v=|embed\/|shorts\/|live\/))([^?&/\s]+)/)
-    return match?.[1] || ''
+    // Fall back to regex
   }
 
-  return ''
+  // Regex fallback to match standard YouTube URL patterns
+  const match = value.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&][vV]=|shorts\/|live\/)|youtu\.be\/)([^"&?/\s]{11})/i)
+  return match?.[1] || ''
 }
 
 function isEmpty(value) {

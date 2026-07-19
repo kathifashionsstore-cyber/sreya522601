@@ -60,11 +60,13 @@ export function AdminCollectionEditor({
   const { user } = useAuth()
   const sections = typeof schema === 'function' ? schema() : schema
 
+  const selectedStr = JSON.stringify(selected || null)
+
   useEffect(() => {
     const next = selected ? stripRuntimeFields(selected) : stripRuntimeFields(newTemplate || fallback[0] || {})
     setForm(next)
     setSaveVersion((version) => version + 1)
-  }, [selected, tab])
+  }, [selectedStr, tab])
 
   useEffect(() => {
     if (visibleData.length && !visibleData.some((item) => item.id === selectedId)) {
