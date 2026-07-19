@@ -4,8 +4,9 @@ import { hospitalJsonLd } from '../lib/seo'
 import { Seo } from '../components/shared/Seo'
 import { HomeStickyHero } from '../components/home/HomeStickyHero'
 import { ServicesCarousel } from '../components/home/ServicesCarousel'
+import { PosterSlider } from '../components/home/PosterSlider'
 import { DoctorSpotlight } from '../components/home/DoctorSpotlight'
-import { ServicesGrid2 } from '../components/home/ServicesGrid2'
+import { HomeFacilities } from '../components/home/HomeFacilities'
 import { HomeBridgeParallax } from '../components/home/HomeBridgeParallax'
 import { ParallaxExperience } from '../components/home/ParallaxExperience'
 import { GoogleReviews } from '../components/home/GoogleReviews'
@@ -35,11 +36,14 @@ export default function Home() {
         {/* 2. Rebuilt Services Carousel (Select a Service to Know More) */}
         <ServicesCarousel />
 
+        {/* Poster/Promotional Slider banner */}
+        <PosterSlider />
+
         {/* 3. Doctor / About spotlight */}
         <DoctorSpotlight />
 
-        {/* 4. Core Treatments & Diagnostics — Services Grid #2 (renamed) */}
-        <ServicesGrid2 />
+        {/* 4. State-of-the-Art Facilities alternating showcase */}
+        <HomeFacilities />
 
         {/* 5. NEW: Parallax scroll bridging section */}
         <HomeBridgeParallax />

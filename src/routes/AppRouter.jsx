@@ -22,6 +22,10 @@ import AdminTestimonials from '../admin/AdminTestimonials'
 import AdminFacilities from '../admin/AdminFacilities'
 import AdminSettings from '../admin/AdminSettings'
 import AdminTheme from '../admin/AdminTheme'
+import AdminProcedurePathway from '../admin/AdminProcedurePathway'
+import AdminPosterSlider from '../admin/AdminPosterSlider'
+import AdminFestivalBanner from '../admin/AdminFestivalBanner'
+import AdminSreyaJourney from '../admin/AdminSreyaJourney'
 
 const Home = lazy(() => import('../pages/Home'))
 const About = lazy(() => import('../pages/About'))
@@ -92,6 +96,10 @@ function AnimatedRoutes() {
               <Route path="announcement" element={<RoleGate><AdminAnnouncementBar /></RoleGate>} />
               <Route path="hero-slides" element={<RoleGate><AdminHeroSlides /></RoleGate>} />
               <Route path="services" element={<RoleGate><AdminServices /></RoleGate>} />
+              <Route path="procedure-pathway" element={<RoleGate><AdminProcedurePathway /></RoleGate>} />
+              <Route path="poster-slider" element={<RoleGate><AdminPosterSlider /></RoleGate>} />
+              <Route path="festival-banner" element={<RoleGate><AdminFestivalBanner /></RoleGate>} />
+              <Route path="sreya-journey" element={<RoleGate><AdminSreyaJourney /></RoleGate>} />
               <Route path="doctors" element={<RoleGate><AdminDoctors /></RoleGate>} />
               <Route path="gallery" element={<AdminGallery />} />
               <Route path="blog" element={<AdminBlog />} />

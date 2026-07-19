@@ -188,75 +188,191 @@ export default function Doctors() {
         </div>
       </section>
 
-      {/* Patient journey steps */}
-      {journeySteps.length ? (
-        <section className="bg-white py-16 sm:py-20 border-t border-slate-100">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-              <div className="lg:sticky lg:top-28">
-                <p className="text-xs font-black uppercase tracking-widest text-primary">Your Journey With Us</p>
-                <h2 className="mt-3 text-3xl font-black leading-tight text-brand-navy sm:text-4xl">
-                  Your Journey With {leadDoctor?.name || 'Dr. Vasanta Kiran'}
-                </h2>
-                <p className="mt-4 text-sm leading-7 text-slate-600">
-                  From first consultation to ongoing support, the doctor-led pathway keeps every step clear,
-                  personal, and connected to your reports.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    to="/appointment"
-                    className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-black text-white shadow-soft transition hover:bg-primary-dark"
-                  >
-                    <CalendarHeart className="size-4" /> Book Appointment
-                  </Link>
-                  <Link
-                    to="/contact"
-                    className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--color-border)] bg-white px-5 py-2.5 text-sm font-black text-brand-navy transition hover:border-primary hover:text-primary"
-                  >
-                    View Contact
-                  </Link>
-                </div>
+      {/* Sreya's Journey Timeline */}
+      <section className="bg-white py-16 sm:py-24 border-t border-slate-100 overflow-hidden">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Timeline Header Section with 1:1 Overlapping Image Frames */}
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-center mb-20">
+            <div className="lg:col-span-6 space-y-6">
+              <span className="text-xs font-black uppercase tracking-widest text-brand-rose">Our Story & Milestones</span>
+              <h2 className="text-3xl sm:text-4xl font-black text-brand-navy font-display leading-tight">
+                {settings.journeyTitle || "Sreya's Journey"}
+              </h2>
+              <div className="h-1 w-16 bg-brand-rose rounded" />
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                {settings.journeyTagline || "Providing Affordable, Quality Healthcare for 2 decades."}
+              </p>
+            </div>
+            
+            <div className="lg:col-span-6 relative flex items-center justify-center h-[340px] sm:h-[400px]">
+              {/* Overlapping Square Frames */}
+              <div className="absolute top-4 right-10 z-10 w-40 h-40 sm:w-52 sm:h-52 rounded-3xl overflow-hidden shadow-lg border-4 border-white bg-slate-50 rotate-3 transition-transform hover:rotate-0 duration-300">
+                <img 
+                  src={settings.journeyIntroImage1 || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600&q=80"} 
+                  alt="Maternal care context" 
+                  className="w-full h-full object-cover"
+                />
               </div>
-
-              <div className="relative grid gap-5">
-                <div className="absolute bottom-8 left-6 top-8 hidden w-px bg-[var(--color-border)] sm:block" />
-                {journeySteps.map((step, index) => (
-                  <motion.article
-                    key={`${step.title}-${index}`}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.25 }}
-                    transition={{ duration: 0.45, delay: index * 0.05 }}
-                    className="relative grid gap-4 rounded-lg border border-[var(--color-border)] bg-brand-cream p-4 shadow-soft sm:grid-cols-[auto_150px] sm:items-center sm:pl-16"
-                  >
-                    <span className="absolute left-0 top-6 z-10 hidden size-12 -translate-x-0 place-items-center rounded-full bg-primary text-sm font-black text-white shadow-lg ring-4 ring-white sm:grid">
-                      {index + 1}
-                    </span>
-                    <div>
-                      <div className="mb-3 flex items-center gap-2 sm:hidden">
-                        <span className="grid size-8 place-items-center rounded-full bg-primary text-xs font-black text-white">
-                          {index + 1}
-                        </span>
-                        <CheckCircle2 className="size-5 text-primary" />
-                      </div>
-                      <h3 className="text-xl font-black text-brand-navy">{step.title}</h3>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">{step.description}</p>
-                    </div>
-                    {step.imageUrl ? (
-                      <img
-                        src={step.imageUrl}
-                        alt={step.title}
-                        className="h-36 w-full rounded-lg object-cover sm:h-32"
-                        loading="lazy"
-                      />
-                    ) : null}
-                  </motion.article>
-                ))}
+              <div className="absolute bottom-4 left-10 z-20 w-40 h-40 sm:w-52 sm:h-52 rounded-3xl overflow-hidden shadow-xl border-4 border-white bg-slate-50 -rotate-3 transition-transform hover:rotate-0 duration-300">
+                <img 
+                  src={settings.journeyIntroImage2 || "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=600&q=80"} 
+                  alt="Baby care context" 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
-        </section>
-      ) : null}
+
+          {/* Animated Vertical Timeline */}
+          <div className="relative border-l-2 border-slate-100 pl-6 ml-4 sm:ml-8 space-y-16 py-8">
+            {(settings.journeyMilestones || []).map((milestone, idx) => {
+              const bullets = (milestone.bulletsText || '')
+                .split('\n')
+                .map(b => b.trim())
+                .filter(Boolean)
+
+              const images = [
+                milestone.image1,
+                milestone.image2,
+                milestone.image3,
+                milestone.image4,
+                milestone.image5
+              ].filter(Boolean)
+
+              return (
+                <motion.article 
+                  key={idx}
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  className="relative space-y-4"
+                >
+                  {/* Timeline Badge Bullet (Circle with Year) */}
+                  <span className="absolute -left-[35px] sm:-left-[43px] top-1 grid size-8 sm:size-10 place-items-center rounded-full bg-brand-rose text-white text-[9px] sm:text-xs font-black ring-4 ring-white shadow-md">
+                    {milestone.year}
+                  </span>
+
+                  <div className="pl-2 sm:pl-4 space-y-3">
+                    <span className="text-xs font-black uppercase text-brand-teal tracking-wider block">
+                      {milestone.date || 'Milestone'}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-black text-brand-navy font-display leading-tight">
+                      {milestone.description}
+                    </h3>
+                    
+                    {/* Bullet Points */}
+                    {bullets.length > 0 && (
+                      <ul className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 pt-2">
+                        {bullets.map((bullet, bIdx) => (
+                          <li key={bIdx} className="flex items-start gap-2 text-sm text-slate-655 font-semibold">
+                            <span className="mt-2 size-1.5 shrink-0 rounded-full bg-brand-rose" />
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* Milestone Image Gallery Grid */}
+                    {images.length > 0 && (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4 pt-2">
+                        {images.map((img, imgIdx) => (
+                          <div key={imgIdx} className="group relative aspect-video rounded-xl overflow-hidden border border-slate-100 shadow-sm bg-slate-50 transition-all hover:shadow-md duration-300">
+                            <img 
+                              src={img} 
+                              alt={`${milestone.year} milestone scene`} 
+                              className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-350"
+                              loading="lazy"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </motion.article>
+              )
+            })}
+          </div>
+
+          {/* Concluding Staircase Graphic & Stats Banner */}
+          <div className="mt-20 pt-10 border-t border-slate-100">
+            <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+              
+              {/* Staircase Graphic (2007 -> 2010 -> 2017 -> 2026) */}
+              <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 bg-slate-50 rounded-3xl border border-slate-100/50">
+                <h4 className="text-xs font-black uppercase text-brand-rose tracking-widest mb-8">Next Giant Leap</h4>
+                <div className="flex items-end justify-center gap-2 h-44 w-full max-w-xs relative">
+                  {/* Step 2007 */}
+                  <div className="flex flex-col items-center w-16 group">
+                    <span className="text-[10px] font-black text-brand-navy mb-1 group-hover:text-brand-rose transition-colors">2007</span>
+                    <div className="w-full h-8 bg-brand-blush rounded-t-lg border-x border-t border-brand-rose/20 shadow-sm flex items-center justify-center font-bold text-xs text-brand-rose">Step 1</div>
+                  </div>
+                  {/* Step 2010 */}
+                  <div className="flex flex-col items-center w-16 group">
+                    <span className="text-[10px] font-black text-brand-navy mb-1 group-hover:text-brand-rose transition-colors">2010</span>
+                    <div className="w-full h-16 bg-[#e0f2fe] rounded-t-lg border-x border-t border-[#0284c7]/20 shadow-sm flex items-center justify-center font-bold text-xs text-[#0284c7]">Step 2</div>
+                  </div>
+                  {/* Step 2017 */}
+                  <div className="flex flex-col items-center w-16 group">
+                    <span className="text-[10px] font-black text-brand-navy mb-1 group-hover:text-brand-rose transition-colors">2017</span>
+                    <div className="w-full h-24 bg-brand-teal/15 rounded-t-lg border-x border-t border-brand-teal/20 shadow-sm flex items-center justify-center font-bold text-xs text-brand-teal">Step 3</div>
+                  </div>
+                  {/* Step 2026 */}
+                  <div className="flex flex-col items-center w-16 group">
+                    <span className="text-[10px] font-black text-brand-navy mb-1 group-hover:text-brand-rose transition-colors">2026</span>
+                    <div className="w-full h-32 bg-primary/10 rounded-t-lg border-x border-t border-primary/20 shadow-lg flex items-center justify-center font-bold text-xs text-primary animate-pulse">Step 4</div>
+                  </div>
+                </div>
+                <p className="text-center text-[10px] font-black text-brand-navy uppercase tracking-widest mt-6">
+                  Now Ready for the Next Giant Leap
+                </p>
+              </div>
+
+              {/* Stats Block & Doctor Profile */}
+              <div className="lg:col-span-7 space-y-8">
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-brand-cream border border-slate-100 rounded-2xl p-5 text-center shadow-soft">
+                    <span className="block text-2xl sm:text-3xl font-black text-brand-navy font-display">{settings.journeyStats?.deliveries || "6000+"}</span>
+                    <span className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1 block">Deliveries</span>
+                  </div>
+                  <div className="bg-brand-cream border border-slate-100 rounded-2xl p-5 text-center shadow-soft">
+                    <span className="block text-2xl sm:text-3xl font-black text-brand-navy font-display">{settings.journeyStats?.infertility || "10,000+"}</span>
+                    <span className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1 block">Infertility Treatments</span>
+                  </div>
+                  <div className="bg-brand-cream border border-slate-100 rounded-2xl p-5 text-center shadow-soft">
+                    <span className="block text-2xl sm:text-3xl font-black text-brand-navy font-display">{settings.journeyStats?.laparoscopic || "7000+"}</span>
+                    <span className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1 block">Laparoscopic Surgeries</span>
+                  </div>
+                  <div className="bg-brand-cream border border-slate-100 rounded-2xl p-5 text-center shadow-soft">
+                    <span className="block text-2xl sm:text-3xl font-black text-brand-navy font-display">{settings.journeyStats?.camps || "1500+"}</span>
+                    <span className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1 block">Free Medical Camps</span>
+                  </div>
+                </div>
+
+                {/* Doctor profile block */}
+                {settings.journeyDoctor?.name && (
+                  <div className="flex flex-col sm:flex-row gap-5 items-center bg-white border border-slate-100 rounded-2xl p-5 shadow-soft">
+                    {settings.journeyDoctor.photoUrl && (
+                      <div className="size-20 shrink-0 rounded-full overflow-hidden border border-slate-200 shadow-inner bg-slate-50">
+                        <img src={settings.journeyDoctor.photoUrl} alt={settings.journeyDoctor.name} className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                    <div className="text-center sm:text-left space-y-1">
+                      <h5 className="font-black text-brand-navy text-lg">{settings.journeyDoctor.name}</h5>
+                      <div className="text-xs text-slate-550 font-bold space-y-0.5 whitespace-pre-line">
+                        {settings.journeyDoctor.qualifications}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CalendarHeart, ClipboardList, Settings, HeartPulse, Sparkles, Smile, HelpCircle } from 'lucide-react'
 
@@ -57,6 +57,15 @@ const steps = [
 
 export function FertilityPathway() {
   const [activeStep, setActiveStep] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+
+  useEffect(() => {
+    if (isPaused) return
+    const timer = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % steps.length)
+    }, 2000)
+    return () => clearInterval(timer)
+  }, [isPaused])
 
   return (
     <section className="bg-white py-16 sm:py-24 border-b border-slate-100">
@@ -96,7 +105,10 @@ export function FertilityPathway() {
               return (
                 <button
                   key={step.id}
-                  onClick={() => setActiveStep(idx)}
+                  onClick={() => {
+                    setActiveStep(idx)
+                    setIsPaused(true)
+                  }}
                   className="flex flex-col items-center text-center group focus:outline-none"
                 >
                   {/* Step Bubble */}

@@ -524,29 +524,7 @@ export function subServiceSectionSchemas() {
         },
       ],
     },
-    {
-      id: 'diagnosis',
-      title: 'Section 7 - Diagnostic Timeline & Steps (Public: "Procedure Pathway / Step-by-Step")',
-      sections: [
-        {
-          title: 'Diagnosis Timeline',
-          fields: [
-            {
-              name: 'diagnosisSteps',
-              label: 'Diagnosis Steps',
-              type: 'repeatableGroup',
-              itemLabel: 'Step',
-              addLabel: 'Add Step',
-              fields: [
-                { name: 'title', label: 'Step Title', type: 'text' },
-                { name: 'description', label: 'Description', type: 'textarea' },
-                { name: 'imageUrl', label: 'Section Image', type: 'image' },
-              ],
-            },
-          ],
-        },
-      ],
-    },
+
     {
       id: 'treatment',
       title: 'Section 8 - Options & Comparison (Public: "Treatment Options / Comparison")',
@@ -979,3 +957,127 @@ export function doctorsPageSchema() {
 }
 
 export const departmentOptions = departments.map((department) => ({ label: department.name, value: department.name }))
+
+export function procedurePathwaySchema() {
+  return [
+    {
+      title: 'Step Details',
+      columns: 2,
+      fields: [
+        { name: 'title', label: 'Step Title', type: 'text', required: true },
+        { name: 'order', label: 'Display Order', type: 'number' },
+        { name: 'active', label: 'Active', type: 'boolean' },
+      ],
+    },
+    {
+      title: 'Content & Media',
+      fields: [
+        { name: 'description', label: 'Description', type: 'textarea', required: true },
+        { name: 'imageUrl', label: 'Section Image (Optional)', type: 'image' },
+      ],
+    },
+  ]
+}
+
+export function bannerSchema() {
+  return [
+    {
+      title: 'Banner Details',
+      columns: 2,
+      fields: [
+        { name: 'order', label: 'Display Order', type: 'number' },
+        { name: 'active', label: 'Active', type: 'boolean' },
+      ],
+    },
+    {
+      title: 'Image',
+      fields: [
+        { name: 'imageUrl', label: 'Banner Image', type: 'image', required: true },
+      ],
+    },
+  ]
+}
+
+export function festivalBannerSchema() {
+  return [
+    {
+      title: 'Status',
+      fields: [
+        { name: 'enabled', label: 'Enable Website Intro Popup', type: 'boolean' },
+      ],
+    },
+    {
+      title: 'Banner Frame Image',
+      fields: [
+        { name: 'imageUrl', label: 'Popup Image', type: 'image', required: true },
+      ],
+    },
+    {
+      title: 'Attribution & Content',
+      columns: 2,
+      fields: [
+        { name: 'text', label: 'Attribution Text (e.g. Website designed by Wayzentech)', type: 'text' },
+        { name: 'phone', label: 'Phone Number', type: 'text' },
+        { name: 'link', label: 'Click Action Link (Optional)', type: 'text' },
+      ],
+    },
+  ]
+}
+
+export function journeyTimelineSchema() {
+  return [
+    {
+      title: 'Timeline Introduction & Layout Banners',
+      fields: [
+        { name: 'journeyTitle', label: 'Section Title (e.g. Sreya\'s Journey)', type: 'text', required: true },
+        { name: 'journeyTagline', label: 'Tagline / Description', type: 'textarea' },
+        { name: 'journeyIntroImage1', label: 'Square Intro Photo 1 (e.g. Top-Right)', type: 'image' },
+        { name: 'journeyIntroImage2', label: 'Square Intro Photo 2 (e.g. Bottom-Left)', type: 'image' },
+      ],
+    },
+    {
+      title: 'Timeline Milestone Blocks',
+      description: 'Add, edit, or delete milestones (e.g., 2007, 2010-2016, 2017, 2026).',
+      fields: [
+        {
+          name: 'journeyMilestones',
+          label: 'Milestones',
+          type: 'repeatableGroup',
+          itemLabel: 'Milestone',
+          addLabel: 'Add Milestone',
+          fields: [
+            { name: 'year', label: 'Year Label (e.g., 2007 or 2010–2016)', type: 'text', required: true },
+            { name: 'date', label: 'Date Label (e.g., January 21, 2007)', type: 'text' },
+            { name: 'description', label: 'Description', type: 'textarea', required: true },
+            { name: 'bulletsText', label: 'Bullet Points (one per line)', type: 'textarea', hint: 'Type each bullet point on a separate line.' },
+            { name: 'image1', label: 'Milestone Image 1', type: 'image' },
+            { name: 'image2', label: 'Milestone Image 2', type: 'image' },
+            { name: 'image3', label: 'Milestone Image 3', type: 'image' },
+            { name: 'image4', label: 'Milestone Image 4', type: 'image' },
+            { name: 'image5', label: 'Milestone Image 5', type: 'image' },
+          ],
+        },
+      ],
+    },
+    {
+      title: 'Milestones Achieved Stats',
+      columns: 2,
+      fields: [
+        { name: 'journeyStats.deliveries', label: 'Deliveries Count (e.g., 6000+)', type: 'text' },
+        { name: 'journeyStats.infertility', label: 'Infertility Treatments (e.g., 10000+)', type: 'text' },
+        { name: 'journeyStats.laparoscopic', label: 'Laparoscopic Surgeries (e.g., 7000+)', type: 'text' },
+        { name: 'journeyStats.camps', label: 'Free Medical Camps (e.g., 1500+)', type: 'text' },
+        { name: 'journeyStats.tagline', label: 'Stats Banner Tagline', type: 'text' }
+      ],
+    },
+    {
+      title: 'Doctor Profile for Journey Section',
+      columns: 2,
+      fields: [
+        { name: 'journeyDoctor.name', label: 'Doctor Name', type: 'text' },
+        { name: 'journeyDoctor.qualifications', label: 'Qualifications (one per line or comma-separated)', type: 'textarea' },
+        { name: 'journeyDoctor.photoUrl', label: 'Doctor Profile Photo', type: 'image' }
+      ]
+    }
+  ]
+}

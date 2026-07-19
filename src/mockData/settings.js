@@ -187,7 +187,69 @@ export const settings = {
     teamHeading: "The Team Behind Every Success",
     teamBody: "Our medical, nursing, embryology, and counselling staff work cohesively under one roof in Narasaraopet. We align our diagnostic precision and personal care to walk with you at every milestone.",
     teamImage: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=80"
-  }
+  },
+  journeyTitle: "Sreya's Journey",
+  journeyTagline: "Providing Affordable, Quality Healthcare for 2 decades.",
+  journeyIntroImage1: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600&q=80",
+  journeyIntroImage2: "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=600&q=80",
+  journeyStats: {
+    deliveries: "6000+",
+    infertility: "10,000+",
+    laparoscopic: "7000+",
+    camps: "1500+",
+    tagline: "Providing Affordable, Quality Healthcare for 2 decades."
+  },
+  journeyDoctor: {
+    name: "Dr. M. Vasanta Kiran",
+    qualifications: "M.B.B.S from Guntur Medical College\nMS (Obg) from Osmania University\nMRCOG from UK\nFellowship in Infertility",
+    photoUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80"
+  },
+  journeyMilestones: [
+    {
+      year: "2007",
+      date: "January 21, 2007 — The Beginning",
+      description: "Sreya Hospitals began its journey in a rented building with a vision to provide quality women's healthcare.",
+      bulletsText: "10-Bedded Hospital\nInfertility treatment with IUI\nBasic Laparoscopy & Hysteroscopy\nGE Logiq 100 Pro Ultrasound\nA humble beginning that laid the foundation for compassionate care.",
+      image1: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=650&q=80",
+      image2: "",
+      image3: "",
+      image4: "",
+      image5: ""
+    },
+    {
+      year: "2010–2016",
+      date: "March 28, 2010 — Expansion & Advancing Care",
+      description: "Sreya Hospitals moved into its own building, marking a major milestone in its journey.",
+      bulletsText: "30-Bedded Hospital\nIntroduction of Colposcopy Services\n2D Ultrasound with colour doppler\nStrengthening of Laparoscopic & Gynecological Surgeries\nExpansion of infertility services",
+      image1: "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=650&q=80",
+      image2: "",
+      image3: "",
+      image4: "",
+      image5: ""
+    },
+    {
+      year: "2017",
+      date: "The IVF Era Started",
+      description: "Sreya Hospitals entered a new era with the establishment of the IVF Centre, bringing advanced fertility treatments to the region.",
+      bulletsText: "50 Bedded hospital\nVolusion P8 4D Ultrasound\nModular OT\nIVF-ICSI-Surrogacy\nFirst Surrogated IVF Hospital in Palnadu\nFirst Registered Surrogacy Clinic in Palnadu\nNABH Pre-Accreditation – 2021\nISO 9001 Certification – 2021\nAarogyasri & EHS Enrollment – 2023\nAarogyasbhadrata Enrollment – 2025\nHealth Insurance Services + TPAs",
+      image1: "https://images.unsplash.com/photo-1581093458791-9d2fcea0a349?auto=format&fit=crop&w=650&q=80",
+      image2: "",
+      image3: "",
+      image4: "",
+      image5: ""
+    },
+    {
+      year: "2026",
+      date: "March 20, 2026 — Sreya 2.0 (A New Chapter Begins)",
+      description: "Extension Building with Advanced Facilities",
+      bulletsText: "80+ Bedded Hospital\nUltrasound upgraded to Volusion Swift 4D with touch screen\nPremium Suite Rooms\nExclusive Conference Hall with Board Rooms\nAdvanced Lamilar & Modular OTs",
+      image1: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=650&q=80",
+      image2: "",
+      image3: "",
+      image4: "",
+      image5: ""
+    }
+  ]
 }
 
 export const payments = {

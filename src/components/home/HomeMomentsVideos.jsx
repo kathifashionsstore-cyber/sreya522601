@@ -28,10 +28,10 @@ export function HomeMomentsVideos() {
           </p>
         </div>
 
-        {/* Side-by-Side Videos */}
-        <div className="grid gap-8 md:grid-cols-2">
+        {/* Side-by-Side Reels (9:16 aspect ratio) */}
+        <div className="flex flex-wrap justify-center gap-8 md:gap-12">
           {/* Video 1 */}
-          <div className="group relative overflow-hidden rounded-3xl bg-slate-950 shadow-soft border border-slate-100/50 aspect-video flex items-center justify-center">
+          <div className="group relative w-full max-w-[280px] sm:max-w-[320px] aspect-[9/16] overflow-hidden rounded-3xl bg-slate-950 shadow-soft border border-slate-100/50 flex items-center justify-center">
             <video
               src={video1}
               autoPlay
@@ -57,7 +57,7 @@ export function HomeMomentsVideos() {
           </div>
 
           {/* Video 2 */}
-          <div className="group relative overflow-hidden rounded-3xl bg-slate-950 shadow-soft border border-slate-100/50 aspect-video flex items-center justify-center">
+          <div className="group relative w-full max-w-[280px] sm:max-w-[320px] aspect-[9/16] overflow-hidden rounded-3xl bg-slate-950 shadow-soft border border-slate-100/50 flex items-center justify-center">
             <video
               src={video2}
               autoPlay

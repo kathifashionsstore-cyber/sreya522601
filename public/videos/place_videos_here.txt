@@ -1,0 +1,4 @@
+Drop your Instagram Reels style vertical (9:16 aspect ratio) MP4 videos here.
+Files should be named:
+- hospital-moments-1.mp4
+- hospital-moments-2.mp4

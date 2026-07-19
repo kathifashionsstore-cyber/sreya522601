@@ -331,6 +331,7 @@ function buildVideoEmbedUrl(url = '') {
   const { data: dbDoctors } = useFirestoreCollection('doctors', [], null)
   const { data: dbSubServices } = useFirestoreCollection('subServices', [])
   const { data: dbFacilities } = useFirestoreCollection('facilities', [])
+  const { data: procedurePathway } = useFirestoreCollection('procedurePathway', [], 'order')
 
   const activeDoctors = useMemo(() => {
     return [...dbDoctors].sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -934,7 +935,7 @@ function buildVideoEmbedUrl(url = '') {
           </section>
 
           {/* ================= SECTION 8: DIAGNOSIS / HOW TEST WORKS ================= */}
-          {service.enabledSections?.diagnosis !== false && Array.isArray(service.diagnosisSteps) && service.diagnosisSteps.length > 0 && (
+          {service.enabledSections?.diagnosis !== false && Array.isArray(procedurePathway) && procedurePathway.length > 0 && (
             <section id="timeline" className="bg-white rounded-2xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
             <div className="max-w-3xl">
               <span className="text-xs font-black uppercase tracking-widest text-brand-rose">Procedure Pathway</span>
@@ -948,11 +949,11 @@ function buildVideoEmbedUrl(url = '') {
 
             {/* Vertical timeline */}
             <div className="relative border-l-2 border-slate-100 pl-6 ml-4 space-y-8 py-4">
-              {service.diagnosisSteps.map((step, index) => (
-                <article key={index} className="relative">
+              {procedurePathway.filter(step => step.active !== false).map((step, index) => (
+                <article key={step.id || index} className="relative grid md:grid-cols-[1fr_200px] gap-6 items-start">
                   {/* Circle Dot */}
                   <span className="absolute -left-[35px] top-0.5 grid size-6 place-items-center rounded-full bg-primary text-white text-xs font-black">
-                    {step.step || index + 1}
+                    {index + 1}
                   </span>
                   <div>
                     <h3 className="font-bold text-text-primary text-base">{step.title}</h3>
@@ -960,6 +961,11 @@ function buildVideoEmbedUrl(url = '') {
                       {step.description}
                     </p>
                   </div>
+                  {step.imageUrl ? (
+                    <div className="relative h-28 w-full overflow-hidden rounded-xl border border-slate-100 md:h-24">
+                      <img src={step.imageUrl} alt={step.title} className="h-full w-full object-cover" />
+                    </div>
+                  ) : null}
                 </article>
               ))}
             </div>

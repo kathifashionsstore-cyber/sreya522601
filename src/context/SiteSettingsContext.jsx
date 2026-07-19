@@ -11,7 +11,7 @@ export function SiteSettingsProvider({ children }) {
   const { data: dbTheme, loading: themeLoading } = useFirestoreDoc('settings/theme', defaultTheme)
 
   const activeSettings = useMemo(() => {
-    const raw = dbSettings || mockSettings
+    const raw = { ...mockSettings, ...dbSettings }
     const savedAnnouncement = raw?.announcementBar || {}
     
     let announcementText = savedAnnouncement.text || "Consult with our lead specialist at Sreya Hospitals. Book your appointment today!"
