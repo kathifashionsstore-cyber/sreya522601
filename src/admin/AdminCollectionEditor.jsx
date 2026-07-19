@@ -64,7 +64,7 @@ export function AdminCollectionEditor({
     const next = selected ? stripRuntimeFields(selected) : stripRuntimeFields(newTemplate || fallback[0] || {})
     setForm(next)
     setSaveVersion((version) => version + 1)
-  }, [selected?.id, tab])
+  }, [selected, tab])
 
   useEffect(() => {
     if (visibleData.length && !visibleData.some((item) => item.id === selectedId)) {

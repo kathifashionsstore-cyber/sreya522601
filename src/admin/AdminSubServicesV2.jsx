@@ -115,7 +115,7 @@ export function AdminSubServicesV2() {
     if (!selected) return
     setForm(stripRuntimeFields(selected))
     setSaveVersion((version) => version + 1)
-  }, [selected?.id])
+  }, [selected])
 
   useEffect(() => {
     if (activeData.length && !activeData.some((item) => item.id === selectedId) && selectedId !== 'new') {

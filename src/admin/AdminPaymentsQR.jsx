@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { QRCodeCanvas } from 'qrcode.react'
 import { Save } from 'lucide-react'
 import { Button } from '../components/shared/Button'
@@ -11,6 +11,12 @@ export default function AdminPaymentsQR() {
   const { payments } = useSiteSettings()
   const [form, setForm] = useState(payments)
   const { push } = useToast()
+
+  useEffect(() => {
+    if (payments) {
+      setForm(payments)
+    }
+  }, [payments])
   const upiPayload = form.upiId ? `upi://pay?pa=${form.upiId}&pn=${encodeURIComponent(form.displayName || 'Sreya Hospitals')}` : ''
 
   async function save() {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Save } from 'lucide-react'
 import { Button } from '../components/shared/Button'
 import { Field, Input, Select } from '../components/shared/Input'
@@ -10,6 +10,12 @@ export default function AdminAnnouncementBar() {
   const { settings } = useSiteSettings()
   const [bar, setBar] = useState(settings.announcementBar || {})
   const { push } = useToast()
+
+  useEffect(() => {
+    if (settings.announcementBar) {
+      setBar(settings.announcementBar)
+    }
+  }, [settings.announcementBar])
 
   async function save() {
     try {
