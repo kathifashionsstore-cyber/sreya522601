@@ -888,22 +888,41 @@ export function facilitySchema() {
       title: 'Facility Basics',
       columns: 2,
       fields: [
-        { name: 'title', label: 'Section Title', type: 'text', required: true },
-        { name: 'description', label: 'Description', type: 'textarea', required: true },
-        { name: 'videoUrl', label: 'Video URL or Path (Optional)', type: 'text', hint: 'e.g., /videos/facility.mp4 or a Firebase storage URL' },
+        { name: 'title', label: 'Facility Title', type: 'text', required: true },
+        { name: 'category', label: 'Category / Tag (e.g. Rooms, Lab, OT, ICU, Tech)', type: 'text' },
         { name: 'order', label: 'Display Order', type: 'number' },
-        { name: 'active', label: 'Show Facility', type: 'boolean' },
+        { name: 'active', label: 'Active (Show on Website)', type: 'boolean' },
       ],
     },
     {
-      title: 'Image Gallery',
+      title: 'Description',
+      fields: [
+        { name: 'description', label: 'Detailed Description', type: 'textarea', required: true },
+      ],
+    },
+    {
+      title: 'Main Photo & Media',
+      columns: 2,
+      fields: [
+        { name: 'imageUrl', label: 'Primary Feature Photo', type: 'image' },
+        { name: 'videoUrl', label: 'Video URL (Optional)', type: 'text', hint: 'Direct MP4 video file URL or Firebase Storage link' },
+      ],
+    },
+    {
+      title: 'Key Specifications & Amenities',
+      fields: [
+        { name: 'amenities', label: 'Specifications & Features (one per item)', type: 'richBulletList', addLabel: 'Add Feature' }
+      ]
+    },
+    {
+      title: 'Additional Image Gallery (Optional)',
       fields: [
         {
           name: 'images',
-          label: 'Gallery Images',
+          label: 'Secondary Gallery Photos',
           type: 'repeatableGroup',
           itemLabel: 'Image',
-          addLabel: 'Add Image',
+          addLabel: 'Add Photo',
           fields: [
             { name: 'imageUrl', label: 'Image', type: 'image', required: true },
             { name: 'altText', label: 'Alt Text', type: 'text' },
@@ -911,12 +930,6 @@ export function facilitySchema() {
         },
       ],
     },
-    {
-      title: 'Amenities (Optional, e.g. for Rooms)',
-      fields: [
-        { name: 'amenities', label: 'Amenities list', type: 'richBulletList', addLabel: 'Add Amenity' }
-      ]
-    }
   ]
 }
 
@@ -1070,15 +1083,6 @@ export function journeyTimelineSchema() {
         { name: 'journeyStats.camps', label: 'Free Medical Camps (e.g., 1500+)', type: 'text' },
         { name: 'journeyStats.tagline', label: 'Stats Banner Tagline', type: 'text' }
       ],
-    },
-    {
-      title: 'Doctor Profile for Journey Section',
-      columns: 2,
-      fields: [
-        { name: 'journeyDoctor.name', label: 'Doctor Name', type: 'text' },
-        { name: 'journeyDoctor.qualifications', label: 'Qualifications (one per line or comma-separated)', type: 'textarea' },
-        { name: 'journeyDoctor.photoUrl', label: 'Doctor Profile Photo', type: 'image' }
-      ]
     }
   ]
 }

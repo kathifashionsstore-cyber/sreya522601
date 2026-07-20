@@ -45,8 +45,8 @@ export function ImageUploadField({ value, onChange, label }) {
 
       if (isImg) {
         try {
-          setCaption('Compressing...')
-          const compressed = await compressImage(file, 300, 1600)
+          setCaption('Compressing (target 200KB)...')
+          const compressed = await compressImage(file, 200, 1600)
           fileToUpload = compressed.blob
           fileName = compressed.fileName
           setCaption(`${compressed.originalSizeKB}KB to ${compressed.compressedSizeKB}KB`)

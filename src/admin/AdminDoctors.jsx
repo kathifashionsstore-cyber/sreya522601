@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { AdminCollectionEditor } from './AdminCollectionEditor'
 import { DynamicForm } from './DynamicForm'
 import { doctors } from '../data/seed'
@@ -36,7 +37,22 @@ export default function AdminDoctors() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-left">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+        <div>
+          <h1 className="text-3xl font-black text-brand-navy">Doctors Manager</h1>
+          <p className="mt-1 text-xs text-slate-500 font-bold">
+            Edit doctor profiles (Dr. M. Vasanta Kiran).
+          </p>
+        </div>
+        <Link 
+          to="/admin/sreya-journey" 
+          className="inline-flex items-center gap-1.5 rounded-lg border border-[#087f8c] bg-teal-50 px-4 py-2 text-xs font-extrabold text-[#087f8c] hover:bg-[#087f8c] hover:text-white transition"
+        >
+          Edit Sreya's Journey Timeline →
+        </Link>
+      </div>
+
       <div className="flex justify-between items-center border-b border-slate-200">
         <div className="flex gap-4">
           <button

@@ -26,25 +26,35 @@ function supportsWebp() {
   return canvas.toDataURL('image/webp').startsWith('data:image/webp')
 }
 
-export async function compressImage(file, maxSizeKB = 300, maxDimension = 1600) {
+export async function compressImage(file, maxSizeKB = 200, maxDimension = 1600) {
   if (!file) throw new Error('No image selected')
   if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
     throw new Error('Please choose a JPEG, PNG, or WebP image.')
   }
 
   const img = await loadImage(file)
-  const canvas = document.createElement('canvas')
-  const { width, height } = scaleToFit(img, maxDimension)
+  const outputType = supportsWebp() ? 'image/webp' : 'image/jpeg'
+  
+  let currentMaxDim = maxDimension
+  let quality = 0.85
+  let canvas = document.createElement('canvas')
+  let { width, height } = scaleToFit(img, currentMaxDim)
   canvas.width = width
   canvas.height = height
-  const ctx = canvas.getContext('2d')
+  let ctx = canvas.getContext('2d')
   ctx.drawImage(img, 0, 0, width, height)
 
-  const outputType = supportsWebp() ? 'image/webp' : 'image/jpeg'
-  let quality = 0.9
   let blob = await canvasToBlob(canvas, outputType, quality)
-  while (blob && blob.size > maxSizeKB * 1024 && quality > 0.3) {
+
+  while (blob && blob.size > maxSizeKB * 1024 && quality > 0.2) {
     quality -= 0.1
+    if (quality < 0.5 && currentMaxDim > 800) {
+      currentMaxDim -= 200
+      const scaled = scaleToFit(img, currentMaxDim)
+      canvas.width = scaled.width
+      canvas.height = scaled.height
+      ctx.drawImage(img, 0, 0, scaled.width, scaled.height)
+    }
     blob = await canvasToBlob(canvas, outputType, quality)
   }
 

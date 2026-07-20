@@ -17,7 +17,7 @@ function ParallaxMedia({ facility }) {
   // Maps the scroll progress to a translate Y value (subtle parallax)
   const y = useTransform(scrollYProgress, [0, 1], [-40, 40])
 
-  const mainImage = facility.images?.[0]?.imageUrl || facility.imageUrl || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80'
+  const mainImage = facility.imageUrl || facility.images?.[0]?.imageUrl || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80'
 
   return (
     <div 

@@ -178,6 +178,54 @@ function MilestoneCollage({ images }) {
   )
 }
 
+// Default timeline milestones fallback data
+const defaultMilestones = [
+  {
+    year: '2007',
+    date: 'January 21, 2007',
+    description: 'Establishment of Sreya Nursing Home & Maternity Hospital',
+    bulletsText: 'Founded as a dedicated center for maternal & child care in Narasaraopet\nEquipped with 24/7 emergency labor room & diagnostic unit\nThousands of safe deliveries delivered with care',
+    image1: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600&q=80',
+    image2: 'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=600&q=80',
+    image3: '',
+    image4: '',
+    image5: ''
+  },
+  {
+    year: '2010–2016',
+    date: '2010 to 2016',
+    description: 'Expanded Gynecological & Laparoscopic Surgical Care',
+    bulletsText: 'Introduced 3D/4D ultrasound pelvic scanning\nEstablished advanced minimally invasive laparoscopic surgery unit\nOver 7,000 successful keyhole & hysteroscopic procedures',
+    image1: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=80',
+    image2: 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=600&q=80',
+    image3: '',
+    image4: '',
+    image5: ''
+  },
+  {
+    year: '2017',
+    date: 'August 2017',
+    description: 'Launch of First Specialized IVF & Embryology Centre in Palnadu',
+    bulletsText: 'First dedicated cleanroom embryology lab in Palnadu region\nInstalled high-precision ICSI micromanipulator & CO2 incubators\nAchieved first successful IVF test-tube baby pregnancies in Narasaraopet',
+    image1: 'https://images.unsplash.com/photo-1581093458791-9d2fcea0a349?auto=format&fit=crop&w=600&q=80',
+    image2: 'https://images.unsplash.com/photo-1579156286657-41d3d68aa0a9?auto=format&fit=crop&w=600&q=80',
+    image3: '',
+    image4: '',
+    image5: ''
+  },
+  {
+    year: '2026',
+    date: 'Present — 2026',
+    description: 'Sreya 2.0 — Modernized Multi-Specialty Fertility Destination',
+    bulletsText: 'State-of-the-art upgraded IVF & genetic screening lab\nOver 10,000+ happy families & 1,500+ free medical awareness camps\nExpanded digital consultation & patient care continuity',
+    image1: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=600&q=80',
+    image2: 'https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=600&q=80',
+    image3: '',
+    image4: '',
+    image5: ''
+  }
+]
+
 export default function Doctors() {
   const { settings } = useSiteSettings()
   const { data: dbDoctors } = useFirestoreCollection('doctors', fallbackDoctors, null)
@@ -188,6 +236,12 @@ export default function Doctors() {
   }, [dbDoctors])
 
   const leadDoctor = items[0] || fallbackDoctors[0]
+
+  const milestonesList = useMemo(() => {
+    return (settings.journeyMilestones && settings.journeyMilestones.length > 0)
+      ? settings.journeyMilestones
+      : defaultMilestones
+  }, [settings.journeyMilestones])
 
   // Parse doctor qualifications with fallback
   const qualificationsList = useMemo(() => {
@@ -289,7 +343,7 @@ export default function Doctors() {
         </div>
       </section>
 
-      {/* Advanced Way Section (Keep if available in settings) */}
+      {/* Advanced Way Section */}
       {(settings.doctorsPage?.advancedHeading || settings.doctorsPage?.advancedBody) && (
         <section className="bg-brand-navy text-white py-12 border-b border-white/5 relative overflow-hidden">
           <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8 space-y-4">
@@ -306,7 +360,7 @@ export default function Doctors() {
         </section>
       )}
 
-      {/* Team Photo / Video Section - 16:9 YouTube frame ratio */}
+      {/* Team Photo Section - Using /team/team-photo.jpg directly */}
       <section className="bg-brand-cream py-16 sm:py-24 border-b border-slate-250/20">
         <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8 text-center space-y-8">
           <div className="space-y-2">
@@ -315,38 +369,21 @@ export default function Doctors() {
           </div>
 
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[24px] sm:rounded-[32px] shadow-soft border border-slate-100 bg-slate-900 group">
-            <video
-              src="/team/team-video.mp4"
-              poster="/team/team-photo.jpg"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.target.style.display = 'none';
-              }}
-            />
             <img
               src="/team/team-photo.jpg"
               alt="Sreya Clinical & Support Team"
-              className="absolute inset-0 w-full h-full object-cover -z-10 group-hover:scale-[1.01] transition-transform duration-700"
-              onError={(e) => {
-                e.target.src = 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=1600&q=80';
-              }}
+              className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-700"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
           </div>
         </div>
       </section>
-
-      {/* Doctor profiles section removed to prevent duplication */}
 
       {/* Sreya's Journey Timeline Section */}
       <section className="bg-brand-cream py-16 sm:py-28 border-t border-slate-200/50 overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
-          {/* Header block with 1:1 overlapping intro photos */}
+          {/* Header block */}
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center mb-24">
             <div className="lg:col-span-6 space-y-6">
               <span className="text-xs font-black uppercase tracking-widest text-[#087f8c]">Our Story & Milestones</span>
@@ -379,11 +416,10 @@ export default function Doctors() {
 
           {/* Premium Vertical Alternating Timeline */}
           <div className="relative max-w-6xl mx-auto px-4">
-            {/* Center Timeline line */}
             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-200 -translate-x-1/2 hidden lg:block" />
 
             <div className="space-y-20 lg:space-y-36 relative">
-              {(settings.journeyMilestones || []).map((milestone, idx) => {
+              {milestonesList.map((milestone, idx) => {
                 const isEven = idx % 2 === 0
                 const isSreya2 = milestone.year.includes('2026')
                 
@@ -537,18 +573,19 @@ export default function Doctors() {
                 </div>
 
                 {/* Symmetrical Doctor profile card bookending the page */}
-                {settings.journeyDoctor?.name && (
+                {leadDoctor && (
                   <div className="flex flex-col sm:flex-row gap-6 items-center bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-xl max-w-2xl mx-auto ring-4 ring-[#087f8c]/5">
-                    {settings.journeyDoctor.photoUrl && (
+                    {leadDoctor.photoUrl && (
                       <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-2 border-white ring-4 ring-[#087f8c]/15 shadow-md bg-slate-50">
-                        <img src={settings.journeyDoctor.photoUrl} alt={settings.journeyDoctor.name} className="w-full h-full object-cover" />
+                        <img src={leadDoctor.photoUrl} alt={leadDoctor.name} className="w-full h-full object-cover" />
                       </div>
                     )}
                     <div className="text-center sm:text-left space-y-1.5">
                       <span className="text-[10px] font-black text-[#087f8c] uppercase tracking-widest">Our Founding Specialist</span>
-                      <h5 className="font-black text-brand-navy text-xl font-display">{settings.journeyDoctor.name}</h5>
-                      <div className="text-xs text-slate-500 font-semibold space-y-0.5 whitespace-pre-line leading-relaxed">
-                        {settings.journeyDoctor.qualifications}
+                      <h5 className="font-black text-brand-navy text-xl font-display">{leadDoctor.name}</h5>
+                      <p className="text-xs font-bold text-[#087f8c]">{leadDoctor.specialty}</p>
+                      <div className="text-xs text-slate-500 font-semibold leading-relaxed">
+                        {leadDoctor.qualifications}
                       </div>
                     </div>
                   </div>
