@@ -55,7 +55,8 @@ service cloud.firestore {
         'testimonials',
         'facilities',
         'trustPoints',
-        'differentiators'
+        'differentiators',
+        'procedurePathway'
       ];
       allow write: if (collection in [
         'services',
@@ -71,7 +72,8 @@ service cloud.firestore {
         'testimonials',
         'facilities',
         'trustPoints',
-        'differentiators'
+        'differentiators',
+        'procedurePathway'
       ] && isAdmin()) || (collection == 'gallery' && isEditor());
     }
 

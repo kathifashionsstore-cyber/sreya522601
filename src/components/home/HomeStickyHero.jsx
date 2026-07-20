@@ -8,8 +8,8 @@ import { useSiteSettings } from '../../context/SiteSettingsContext'
 
 export function HomeStickyHero() {
   const { settings } = useSiteSettings()
-  const { data: dbSlides } = useFirestoreCollection('heroSlides', [])
-  const slides = (dbSlides && dbSlides.length ? dbSlides : []).filter((slide) => slide.active !== false)
+  const { data: dbSlides } = useFirestoreCollection('heroSlides', fallbackSlides)
+  const slides = (dbSlides && dbSlides.length ? dbSlides : fallbackSlides).filter((slide) => slide.active !== false)
   const [activeSlide, setActiveSlide] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -22,12 +22,12 @@ export function HomeStickyHero() {
     return () => mediaQuery.removeEventListener('change', handler)
   }, [])
 
-  // Rotate slides every 2s unless paused or prefers-reduced-motion is active
+  // Rotate slides every 3s unless paused or prefers-reduced-motion is active
   useEffect(() => {
     if (prefersReducedMotion || isPaused || !slides.length) return
     const timer = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % slides.length)
-    }, 2000)
+    }, 3000)
     return () => clearInterval(timer)
   }, [prefersReducedMotion, isPaused, slides.length])
 

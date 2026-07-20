@@ -3,13 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
 
 const fallbackBanners = [
-  { id: 'fb1', imageUrl: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=1600&q=80', order: 1, active: true },
-  { id: 'fb2', imageUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1600&q=80', order: 2, active: true },
-  { id: 'fb3', imageUrl: 'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1600&q=80', order: 3, active: true }
+  { id: 'fb1', title: 'Poster Banner 1', imageUrl: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=1600&q=80', order: 1, active: true },
+  { id: 'fb2', title: 'Poster Banner 2', imageUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1600&q=80', order: 2, active: true },
+  { id: 'fb3', title: 'Poster Banner 3', imageUrl: 'https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1600&q=80', order: 3, active: true },
+  { id: 'fb4', title: 'Poster Banner 4', imageUrl: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=80', order: 4, active: true },
+  { id: 'fb5', title: 'Poster Banner 5', imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1600&q=80', order: 5, active: true },
 ]
 
 export function PosterSlider() {
-  const { data: dbBanners } = useFirestoreCollection('banners', [])
+  const { data: dbBanners } = useFirestoreCollection('banners', fallbackBanners)
   
   const banners = (dbBanners && dbBanners.length ? dbBanners : fallbackBanners)
     .filter(b => b.active !== false)
@@ -22,7 +24,7 @@ export function PosterSlider() {
     if (banners.length <= 1 || isPaused) return
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % banners.length)
-    }, 2000)
+    }, 3000)
     return () => clearInterval(timer)
   }, [banners.length, isPaused])
 

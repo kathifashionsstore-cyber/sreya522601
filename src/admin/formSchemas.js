@@ -985,6 +985,7 @@ export function bannerSchema() {
       title: 'Banner Details',
       columns: 2,
       fields: [
+        { name: 'title', label: 'Banner Title / Label', type: 'text' },
         { name: 'order', label: 'Display Order', type: 'number' },
         { name: 'active', label: 'Active', type: 'boolean' },
       ],
