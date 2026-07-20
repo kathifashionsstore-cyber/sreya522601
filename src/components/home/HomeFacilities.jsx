@@ -33,7 +33,7 @@ export function HomeFacilities() {
         <div className="space-y-20 max-w-5xl mx-auto">
           {activeFacilities.map((facility, index) => {
             const isEven = index % 2 === 0
-            const imgUrl = facility.images?.[0]?.imageUrl || 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80'
+            const imgUrl = facility.imageUrl || facility.images?.[0]?.imageUrl || 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80'
             const altText = facility.images?.[0]?.altText || facility.title
 
             return (
@@ -49,27 +49,36 @@ export function HomeFacilities() {
                   transition={{ duration: 0.6 }}
                   className={`space-y-4 ${!isEven ? 'md:order-2' : ''}`}
                 >
-                  <span className="text-[10px] font-black uppercase text-[#D8B26E] tracking-widest block">
-                    Feature Showcase
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-extrabold text-[#087f8c]/20 font-display">
+                      {(index + 1).toString().padStart(2, '0')}
+                    </span>
+                    <span className="text-xs font-black uppercase text-[#087f8c] tracking-widest">
+                      {facility.category ? facility.category.toUpperCase() : 'FACILITY'}
+                    </span>
+                  </div>
                   <h3 className="text-2xl font-black text-brand-navy font-display leading-tight">
                     {facility.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-slate-655 font-semibold">
+                  <div className="h-1 w-12 bg-[#087f8c] rounded" />
+                  <p className="text-sm leading-relaxed text-slate-600 font-medium">
                     {facility.description}
                   </p>
                   
                   {/* Amenities tags */}
                   {Array.isArray(facility.amenities) && facility.amenities.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 pt-2">
-                      {facility.amenities.slice(0, 3).map((amenity, aIdx) => (
-                        <span 
-                          key={aIdx} 
-                          className="rounded-full bg-slate-50 border border-slate-100 px-3 py-1 text-xs font-semibold text-slate-500"
-                        >
-                          {amenity}
-                        </span>
-                      ))}
+                    <div className="pt-2">
+                      <h4 className="text-[11px] font-black uppercase text-brand-navy tracking-wider mb-2">
+                        Key Specifications:
+                      </h4>
+                      <ul className="grid gap-2 sm:grid-cols-2 text-xs text-slate-600 font-semibold">
+                        {facility.amenities.map((spec, aIdx) => (
+                          <li key={aIdx} className="flex items-center gap-2">
+                            <span className="size-1.5 shrink-0 rounded-full bg-[#087f8c]" />
+                            <span>{spec}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
                 </motion.div>
@@ -80,7 +89,7 @@ export function HomeFacilities() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, amount: 0.25 }}
                   transition={{ duration: 0.6 }}
-                  className={`relative aspect-[4/3] rounded-3xl overflow-hidden shadow-soft border border-slate-100/50 bg-slate-100 group ${!isEven ? 'md:order-1' : ''}`}
+                  className={`relative aspect-[16/10] sm:aspect-[16/9] rounded-3xl overflow-hidden shadow-soft border border-slate-100/50 bg-slate-900 group ${!isEven ? 'md:order-1' : ''}`}
                 >
                   <img 
                     src={imgUrl} 
@@ -88,7 +97,7 @@ export function HomeFacilities() {
                     className="w-full h-full object-cover transition-transform group-hover:scale-105 duration-700 ease-out"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                 </motion.div>
               </div>
             )
