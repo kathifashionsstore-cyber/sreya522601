@@ -967,7 +967,10 @@ export const serviceDepartments = subServices.map((service, index) => ({
 
 function itemMatches(item, locked) {
   if (!item || !locked) return false
-  return item.id === locked.id || item.slug === locked.slug || item.name === locked.name
+  const matchId = Boolean(item.id && locked.id && item.id === locked.id)
+  const matchSlug = Boolean(item.slug && locked.slug && item.slug === locked.slug)
+  const matchName = Boolean(item.name && locked.name && item.name === locked.name)
+  return matchId || matchSlug || matchName
 }
 
 function findLockedCandidate(candidates, locked) {
