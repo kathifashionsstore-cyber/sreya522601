@@ -101,7 +101,23 @@ export function MobileBottomNav() {
 
       {/* Services Sheet */}
       <Sheet open={sheet === 'services'} title="Services Categories" onClose={close}>
-        <div className="grid gap-4">
+        <div className="grid gap-3">
+          <Link
+            to="/services"
+            onClick={close}
+            className="rounded-xl bg-gradient-to-r from-brand-navy to-brand-teal p-4 font-black text-white shadow-md hover:opacity-95 transition flex items-center justify-between"
+          >
+            <div className="flex items-center gap-2">
+              <Stethoscope className="size-5 text-brand-rose" />
+              <span>All Medical &amp; Fertility Services</span>
+            </div>
+            <span className="text-xs font-black bg-white/20 px-3 py-1 rounded-full text-white">View All &rarr;</span>
+          </Link>
+
+          <div className="text-[10px] font-black uppercase tracking-wider text-slate-400 pt-2 px-1">
+            Browse By Category
+          </div>
+
           {categories.map((category) => (
             <Link
               key={category.id}
@@ -149,6 +165,7 @@ export function MobileBottomNav() {
           {[
             { label: 'Home', href: '/' },
             { label: 'Our Story (About)', href: '/about' },
+            { label: 'All Services Overview', href: '/services' },
             { label: 'Meet Dr. Vasanta Kiran', href: '/doctors' },
             { label: 'Facilities', href: '/facilities' },
             { label: 'Gallery', href: '/gallery' },
