@@ -26,3 +26,5 @@ export const doctors = [
     ],
   }
 ]
+
+export const fallbackDoctors = doctors

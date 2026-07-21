@@ -12,8 +12,8 @@ export function HomeBridgeParallax() {
   const body = section.body || 'At Sreya, you consult directly with our lead specialist at every step. From standard follicular scans to advanced clean-room embryo monitoring, your family journey is managed with continuous transparency.'
   const primaryLabel = section.primaryButtonLabel || 'Book Appointment'
   const primaryLink = section.primaryButtonLink || '/appointment'
-  const secondaryLabel = section.secondaryButtonLabel || 'Free Counselling Camp'
-  const secondaryLink = section.secondaryButtonLink || '/free-camp'
+  const secondaryLabel = section.secondaryButtonLabel || 'Explore Facilities'
+  const secondaryLink = section.secondaryButtonLink || '/facilities'
   const overlayColor = section.overlayColor || '#0F172A'
   const rawOverlayOpacity = Number(section.overlayOpacity ?? 0.58)
   const overlayOpacity = Number.isFinite(rawOverlayOpacity)

@@ -24,9 +24,11 @@ export function Layout({ children }) {
   return (
     <>
       <ScrollProgress />
-      <AnnouncementBar />
-      <MobileTopBar />
-      <Navbar />
+      <header className="sticky top-0 z-50 w-full">
+        <AnnouncementBar />
+        <MobileTopBar />
+        <Navbar />
+      </header>
       <main>{children}</main>
       <Footer />
       <FloatingButtons />

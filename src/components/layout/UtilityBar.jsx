@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { CalendarDays, Phone, Stethoscope } from 'lucide-react'
+import { Building2, CalendarDays, Phone, Stethoscope } from 'lucide-react'
 import { useSiteSettings } from '../../context/SiteSettingsContext'
 
 export function UtilityBar() {
@@ -14,8 +14,8 @@ export function UtilityBar() {
           <Link to="/doctors" className="inline-flex items-center gap-2 text-white/80 transition hover:text-white">
             <Stethoscope className="size-4 text-brand-rose" /> Find Our Doctor
           </Link>
-          <Link to="/free-camp" className="inline-flex items-center gap-2 text-white/80 transition hover:text-white">
-            <CalendarDays className="size-4 text-brand-rose" /> Free Counselling Camp
+          <Link to="/facilities" className="inline-flex items-center gap-2 text-white/80 transition hover:text-white">
+            <Building2 className="size-4 text-brand-rose" /> Facilities
           </Link>
         </div>
 

@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Layout } from '../components/layout/Layout'
 import { IVFLoader } from '../components/shared/IVFLoader'
+import { ScrollToTop } from '../components/shared/ScrollToTop'
 import { usePageTracking } from '../hooks/usePageTracking'
 import { ProtectedRoute, RoleGate } from './ProtectedRoute'
 import { AdminLayout } from '../admin/AdminLayout'
@@ -25,6 +26,7 @@ import AdminTheme from '../admin/AdminTheme'
 import AdminProcedurePathway from '../admin/AdminProcedurePathway'
 import AdminPosterSlider from '../admin/AdminPosterSlider'
 import AdminFestivalBanner from '../admin/AdminFestivalBanner'
+import AdminCategoryImages from '../admin/AdminCategoryImages'
 import AdminSreyaJourney from '../admin/AdminSreyaJourney'
 
 const Home = lazy(() => import('../pages/Home'))
@@ -96,6 +98,7 @@ function AnimatedRoutes() {
               <Route path="announcement" element={<RoleGate><AdminAnnouncementBar /></RoleGate>} />
               <Route path="hero-slides" element={<RoleGate><AdminHeroSlides /></RoleGate>} />
               <Route path="services" element={<RoleGate><AdminServices /></RoleGate>} />
+              <Route path="category-images" element={<RoleGate><AdminCategoryImages /></RoleGate>} />
               <Route path="procedure-pathway" element={<RoleGate><AdminProcedurePathway /></RoleGate>} />
               <Route path="poster-slider" element={<RoleGate><AdminPosterSlider /></RoleGate>} />
               <Route path="festival-banner" element={<RoleGate><AdminFestivalBanner /></RoleGate>} />
@@ -123,6 +126,7 @@ export function AppRouter() {
   usePageTracking()
   return (
     <Suspense fallback={<IVFLoader />}>
+      <ScrollToTop />
       <AnimatedRoutes />
     </Suspense>
   )

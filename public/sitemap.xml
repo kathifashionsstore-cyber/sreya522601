@@ -86,6 +86,21 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://sreyaivfcentre.com/services/pregnancy-maternity-care</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sreyaivfcentre.com/services/gynaecology</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sreyaivfcentre.com/services/laparoscopy-surgical-care</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://sreyaivfcentre.com/services/fertility-testing/female-tests</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -217,6 +232,31 @@
   </url>
   <url>
     <loc>https://sreyaivfcentre.com/services/fertility-testing/both-partners/comprehensive-fertility-panels</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sreyaivfcentre.com/services/pregnancy-maternity-care/antenatal-care</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sreyaivfcentre.com/services/pregnancy-maternity-care/postnatal-support</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sreyaivfcentre.com/services/gynaecology/pcos-menstrual-care</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sreyaivfcentre.com/services/gynaecology/well-woman-screening</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sreyaivfcentre.com/services/laparoscopy-surgical-care/laparoscopic-surgical-care</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

@@ -59,6 +59,42 @@ export const serviceCategories = [
     accentColor: "var(--color-category-testing)",
     imageUrl: placeholderImages.consultation,
     order: 2,
+  },
+  {
+    id: "pregnancy-maternity-care",
+    slug: "pregnancy-maternity-care",
+    title: "Pregnancy & Maternity Care",
+    shortTitle: "Maternity Care",
+    tagline: "Preconception, antenatal, high-risk pregnancy, delivery, and postnatal support.",
+    description: "Preconception, antenatal, high-risk pregnancy, delivery, and postnatal support.",
+    iconKey: "Baby",
+    accentColor: "var(--color-category-fertility)",
+    imageUrl: placeholderImages.family,
+    order: 3,
+  },
+  {
+    id: "gynaecology",
+    slug: "gynaecology",
+    title: "Gynaecology",
+    shortTitle: "Gynaecology",
+    tagline: "Consultation for menstrual health, PCOS, menopause, screening, and counselling.",
+    description: "Consultation for menstrual health, PCOS, menopause, screening, and counselling.",
+    iconKey: "User",
+    accentColor: "var(--color-category-testing)",
+    imageUrl: placeholderImages.care,
+    order: 4,
+  },
+  {
+    id: "laparoscopy-surgical-care",
+    slug: "laparoscopy-surgical-care",
+    title: "Laparoscopy & Surgical Care",
+    shortTitle: "Surgical Care",
+    tagline: "Minimally invasive care for selected gynaecological conditions.",
+    description: "Minimally invasive care for selected gynaecological conditions.",
+    iconKey: "Scissors",
+    accentColor: "var(--color-category-fertility)",
+    imageUrl: placeholderImages.lab,
+    order: 5,
   }
 ]
 
@@ -947,6 +983,121 @@ export const subServices = [
       relatedServiceSlugs: ["semen-analysis", "hormonal-testing-female", "ultrasound-scans"],
       faqs: [
         { q: "Does the panel save time?", a: "Yes, completing tests together helps outline a clear treatment pathway in a single follow-up visit." }
+      ]
+    }
+  ),
+
+  createService(
+    "antenatal-care",
+    "pregnancy-maternity-care",
+    null,
+    "treatment",
+    "Antenatal & High-Risk Pregnancy Care",
+    "Comprehensive preconception guidance, routine trimester monitoring, and specialized high-risk pregnancy supervision.",
+    {
+      order: 16,
+      overview: [
+        "Sreya Hospitals provides complete antenatal and high-risk pregnancy care tailored to ensure maternal and fetal well-being throughout every trimester.",
+        "Under expert specialist care, mothers receive routine fetal monitoring, 3D/4D growth scans, nutritional planning, and high-risk management for gestational diabetes or hypertension."
+      ],
+      symptoms: [
+        { icon: "Baby", title: "Trimester Monitoring", description: "Regular maternal health and fetal developmental assessments." },
+        { icon: "ShieldAlert", title: "High-Risk Support", description: "Specialized protocol for hypertension, thyroid, or gestational diabetes." }
+      ],
+      faqs: [
+        { q: "When should I begin antenatal care?", a: "Antenatal visits should start as early as preconception or immediately upon positive pregnancy confirmation." }
+      ]
+    }
+  ),
+
+  createService(
+    "postnatal-support",
+    "pregnancy-maternity-care",
+    null,
+    "treatment",
+    "Delivery & Postnatal Wellness",
+    "Safe delivery services, painless labor options, postnatal recovery care, and lactation counselling.",
+    {
+      order: 17,
+      overview: [
+        "Our maternity care extends beyond delivery with comprehensive postnatal recovery support, infant health checks, and lactation assistance.",
+        "We prioritize compassionate, patient-centered delivery pathways with full clinical safety and specialist oversight."
+      ],
+      symptoms: [
+        { icon: "Heart", title: "Labor & Delivery", description: "Normal delivery support and painless labor options." },
+        { icon: "ShieldCheck", title: "Postnatal Recovery", description: "Maternal physical recovery checks and emotional wellness." }
+      ],
+      faqs: [
+        { q: "What postnatal support is provided?", a: "We provide comprehensive mother and newborn checks, pelvic health guidance, and lactation support." }
+      ]
+    }
+  ),
+
+  createService(
+    "pcos-menstrual-care",
+    "gynaecology",
+    null,
+    "treatment",
+    "PCOS & Menstrual Health Care",
+    "Specialized consultation for irregular periods, PCOS/PCOD management, hormonal balancing, and adolescent health.",
+    {
+      order: 18,
+      overview: [
+        "Polycystic Ovary Syndrome (PCOS) and menstrual irregularities require a personalized multi-disciplinary care plan combining lifestyle, hormonal balancing, and metabolic care.",
+        "At Sreya Hospitals, we provide empathetic and effective gynaecological consultations to restore hormonal harmony and reproductive health."
+      ],
+      symptoms: [
+        { icon: "Activity", title: "Cycle Regulation", description: "Diagnostic profiling for irregular, painful, or heavy menstrual cycles." },
+        { icon: "User", title: "PCOS Management", description: "Customized metabolic, dietary, and hormonal management pathways." }
+      ],
+      faqs: [
+        { q: "Can PCOS affect future fertility?", a: "With early diagnosis and tailored management, ovulation can be restored effectively for healthy conception." }
+      ]
+    }
+  ),
+
+  createService(
+    "well-woman-screening",
+    "gynaecology",
+    null,
+    "test",
+    "Well-Woman Health & Preventive Screening",
+    "Preventive gynaecological check-ups, Pap smears, pelvic ultrasound, and menopause wellness consultations.",
+    {
+      order: 19,
+      overview: [
+        "Routine gynaecological screening protects women's health through early detection of cervical, uterine, and ovarian conditions.",
+        "Our well-woman consultation includes Pap smear screening, pelvic ultrasounds, breast health awareness, and menopause care."
+      ],
+      symptoms: [
+        { icon: "ShieldCheck", title: "Preventive Screening", description: "Comprehensive Pap smear and HPV diagnostic checks." },
+        { icon: "HeartPulse", title: "Menopause Care", description: "Hormone management and bone density health guidance." }
+      ],
+      faqs: [
+        { q: "How often should well-woman checks be done?", a: "Annual preventive gynaecological screenings are recommended for women of all age groups." }
+      ]
+    }
+  ),
+
+  createService(
+    "laparoscopic-surgical-care",
+    "laparoscopy-surgical-care",
+    null,
+    "treatment",
+    "Advanced Minimally Invasive Laparoscopy",
+    "Keyhole surgical care for fibroids, ovarian cysts, endometriosis, and tubal recanalization.",
+    {
+      order: 20,
+      overview: [
+        "Minimally invasive laparoscopic surgery offers smaller incisions, minimal pain, minimal scarring, and significantly faster recovery times.",
+        "Our surgical suite handles laparoscopic myomectomy (fibroid removal), cystectomy, endometriosis excision, and diagnostic laparoscopy."
+      ],
+      symptoms: [
+        { icon: "Scissors", title: "Keyhole Precision", description: "Minimally invasive surgical correction of uterine and ovarian issues." },
+        { icon: "Heart", title: "Faster Recovery", description: "Reduced hospital stay and rapid return to daily routine." }
+      ],
+      faqs: [
+        { q: "What are the benefits of laparoscopic surgery?", a: "Keyhole surgery minimizes pain, reduces scar size, and allows patients to resume normal life within days." }
       ]
     }
   )

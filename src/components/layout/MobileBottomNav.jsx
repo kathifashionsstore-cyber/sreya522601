@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { CalendarPlus, GalleryHorizontal, Home, Menu, Phone, Stethoscope, X } from 'lucide-react'
+import { Building2, CalendarPlus, Home, Menu, Phone, Stethoscope, X } from 'lucide-react'
 import {
   getLockedServiceCategories,
   getServiceCategoryUrl,
@@ -12,7 +12,7 @@ import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
 export function MobileTopBar() {
   const { settings } = useSiteSettings()
   return (
-    <div className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-100 bg-white/95 px-4 py-3 backdrop-blur lg:hidden">
+    <div className="flex items-center justify-between border-b border-slate-100 bg-white/95 px-4 py-3 backdrop-blur lg:hidden">
       <Link to="/" className="flex items-center gap-2">
         {settings.logoUrl || '/logo.webp' ? (
           <img 
@@ -91,8 +91,8 @@ export function MobileBottomNav() {
           </span>
           <span className="-mt-1 text-[0.68rem] font-black text-brand-navy">Book</span>
         </NavLink>
-        <NavLink to="/gallery" className={({ isActive }) => `mobile-tab ${isActive ? 'text-primary font-black' : 'text-slate-500'}`}>
-          <GalleryHorizontal className="size-5" /> Gallery
+        <NavLink to="/facilities" className={({ isActive }) => `mobile-tab ${isActive ? 'text-primary font-black' : 'text-slate-500'}`}>
+          <Building2 className="size-5" /> Facilities
         </NavLink>
         <button type="button" className="mobile-tab text-slate-500" onClick={() => setSheet('menu')}>
           <Menu className="size-5" /> Menu
@@ -155,7 +155,6 @@ export function MobileBottomNav() {
             { label: 'Blog Articles', href: '/blog' },
             { label: 'Contact Us', href: '/contact' },
             { label: 'Book Appointment', href: '/appointment' },
-            { label: 'Admin Access', href: '/admin/login' },
           ].map((item) => (
             <Link
               key={item.label}

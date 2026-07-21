@@ -211,7 +211,7 @@ function getContactLine(settings = {}) {
 }
 
 function ReceiptDocument({ appointment, settings, doctor, logoUrl, doctorPhotoUrl, qrDataUrl }) {
-  const verifyUrl = `${import.meta.env.VITE_SITE_URL || 'https://www.sreyahospitals.example'}/verify-appointment?receiptId=${appointment.receiptId}`
+  const verifyUrl = `${import.meta.env.VITE_SITE_URL || 'https://www.sreyaivfcentre.com'}/verify-appointment?receiptId=${appointment.receiptId}`
   const contactLine = getContactLine(settings) || 'Phone pending confirmation'
 
   let statusPillStyle = styles.statusPillPending
@@ -343,7 +343,7 @@ export function ReceiptPreview({ appointment }) {
   }, [dbDoctors])
 
   const verifyUrl = appointment
-    ? `${import.meta.env.VITE_SITE_URL || 'https://www.sreyahospitals.example'}/verify-appointment?receiptId=${appointment.receiptId}`
+    ? `${import.meta.env.VITE_SITE_URL || 'https://www.sreyaivfcentre.com'}/verify-appointment?receiptId=${appointment.receiptId}`
     : ''
   const logoUrl = absoluteAssetUrl(settings.logoUrl || '/logo.webp')
   const doctorPhotoUrl = absoluteAssetUrl(doctor?.photoUrl || '')

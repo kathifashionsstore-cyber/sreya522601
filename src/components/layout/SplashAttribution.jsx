@@ -25,33 +25,33 @@ export function SplashAttribution() {
   const attributionLink = banner.link || ''
 
   return (
-    <div className="fixed inset-0 z-[150] grid place-items-center bg-brand-ink/75 p-4 backdrop-blur-md">
-      <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-xl border border-slate-100 flex flex-col">
+    <div className="fixed inset-0 z-[150] flex items-center justify-center bg-brand-ink/80 p-4 sm:p-6 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-lg sm:max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl border border-slate-100 flex flex-col p-4 sm:p-6 my-auto">
         {/* Close Button top-right */}
         <button
           onClick={handleDismiss}
-          className="absolute top-4 right-4 z-20 grid size-8 place-items-center rounded-full bg-black/55 text-white hover:bg-black/75 transition-colors"
+          className="absolute top-6 right-6 z-20 grid size-9 place-items-center rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors shadow-md"
           aria-label="Close welcome popup"
         >
-          <X className="size-4" />
+          <X className="size-5" />
         </button>
 
-        {/* Banner image */}
+        {/* Banner image - 1:1 Square Aspect Ratio */}
         {banner.imageUrl ? (
-          <div className="relative w-full aspect-video sm:aspect-[4/3] overflow-hidden bg-slate-100">
+          <div className="relative w-full aspect-square max-h-[50vh] sm:max-h-[58vh] overflow-hidden rounded-2xl bg-slate-50 border border-slate-100 mb-4 flex place-items-center justify-center">
             <img
               src={banner.imageUrl}
               alt="Welcome Poster"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain sm:object-cover rounded-2xl"
             />
           </div>
         ) : (
-          <div className="w-full h-12 bg-brand-teal" />
+          <div className="w-full h-16 rounded-2xl bg-gradient-to-r from-brand-teal to-brand-rose mb-4" />
         )}
 
         {/* Content body */}
-        <div className="p-6 text-center space-y-4 flex-1 flex flex-col justify-between">
-          <div className="space-y-2">
+        <div className="text-center space-y-3 flex-1 flex flex-col justify-between pt-1">
+          <div className="space-y-1.5">
             {attributionLink ? (
               <a
                 href={attributionLink}
@@ -59,7 +59,7 @@ export function SplashAttribution() {
                 rel="noopener noreferrer"
                 className="block group"
               >
-                <h2 className="text-xl font-black text-brand-navy group-hover:text-brand-rose transition-colors leading-tight">
+                <h2 className="text-lg sm:text-xl font-black text-brand-navy group-hover:text-brand-rose transition-colors leading-tight">
                   {attributionText}
                 </h2>
                 <p className="mt-1 text-sm font-bold text-brand-rose">
@@ -68,7 +68,7 @@ export function SplashAttribution() {
               </a>
             ) : (
               <>
-                <h2 className="text-xl font-black text-brand-navy leading-tight">
+                <h2 className="text-lg sm:text-xl font-black text-brand-navy leading-tight">
                   {attributionText}
                 </h2>
                 <p className="mt-1 text-sm font-bold text-brand-rose">
@@ -76,14 +76,14 @@ export function SplashAttribution() {
                 </p>
               </>
             )}
-            <p className="text-xs text-slate-500 font-semibold pt-1">
-              Welcome to Sreya Hospitals & IVF Centre
+            <p className="text-xs text-slate-500 font-semibold pt-0.5">
+              Welcome to Sreya Hospitals &amp; IVF Centre
             </p>
           </div>
 
           <Button
             type="button"
-            className="w-full min-h-12 text-sm font-black tracking-wide"
+            className="w-full min-h-12 text-sm font-black tracking-wide rounded-xl mt-3"
             onClick={handleDismiss}
           >
             Continue to Website

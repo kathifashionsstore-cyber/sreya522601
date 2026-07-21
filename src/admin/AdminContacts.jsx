@@ -62,7 +62,6 @@ export default function AdminContacts() {
           <option value="all">All types</option>
           <option value="general">General</option>
           <option value="appointment">Appointment</option>
-          <option value="free-camp">Free Camp</option>
           <option value="feedback">Feedback</option>
         </Select>
       </div>

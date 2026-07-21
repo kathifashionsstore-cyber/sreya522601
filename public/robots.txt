@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://www.sreyahospitals.example/sitemap.xml
+Sitemap: https://www.sreyaivfcentre.com/sitemap.xml

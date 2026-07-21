@@ -58,7 +58,7 @@ export function Navbar() {
         boxShadow: scrolled ? '0 10px 30px -10px rgba(10, 46, 77, 0.15)' : '0 0 0 rgba(0,0,0,0)',
       }}
       transition={{ duration: 0.2 }}
-      className="sticky top-0 z-40 hidden border-b border-slate-100 backdrop-blur-md lg:block"
+      className="hidden border-b border-slate-100 backdrop-blur-md lg:block"
     >
       <div className="mx-auto flex h-20 items-center justify-between gap-6 px-6 max-w-7xl">
         {/* Brand Logo & Name */}
@@ -93,6 +93,15 @@ export function Navbar() {
             }
           >
             Home
+          </NavLink>
+
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              `rounded-lg px-3 py-2 transition hover:bg-brand-blush hover:text-primary ${isActive ? 'text-primary' : ''}`
+            }
+          >
+            About
           </NavLink>
 
           {/* Mega-menu: Services */}

@@ -11,7 +11,7 @@ export function routeTitle(title) {
 }
 
 export function canonical(pathname) {
-  const base = import.meta.env.VITE_SITE_URL || 'https://www.sreyahospitals.example'
+  const base = import.meta.env.VITE_SITE_URL || 'https://www.sreyaivfcentre.com'
   return `${base.replace(/\/$/, '')}${pathname}`
 }
 
@@ -23,7 +23,7 @@ export function hospitalJsonLd(settings = publicSettings) {
     description: settings.seo?.description || settings.tagline,
     address: settings.address,
     telephone: settings.phone || undefined,
-    url: import.meta.env.VITE_SITE_URL || 'https://www.sreyahospitals.example',
+    url: import.meta.env.VITE_SITE_URL || 'https://www.sreyaivfcentre.com',
     medicalSpecialty: ['Obstetrics', 'Gynecology', 'ReproductiveEndocrinology'],
   }
 }

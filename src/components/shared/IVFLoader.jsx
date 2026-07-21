@@ -38,46 +38,98 @@ export function IVFLoader({ inline = false }) {
     return () => clearInterval(timer)
   }, [showMsg])
 
-  // Custom pregnancy/maternity line art SVG
+  // Custom pregnancy & maternal care line art SVG
   const loaderIcon = (
-    <svg viewBox="0 0 100 100" className="size-28 text-brand-rose relative z-10" fill="none">
+    <svg viewBox="0 0 120 120" className="size-32 text-brand-rose relative z-10" fill="none">
+      <defs>
+        <linearGradient id="wombGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f43f5e" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="#fb7185" stopOpacity="0.4" />
+        </linearGradient>
+        <radialGradient id="pulseHalo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffe4e6" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#ffe4e6" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
       <style>{`
-        @keyframes drawMother {
-          0% { stroke-dashoffset: 120; }
+        @keyframes drawMotherLine {
+          0% { stroke-dashoffset: 240; }
+          50% { stroke-dashoffset: 0; }
           100% { stroke-dashoffset: 0; }
         }
-        @keyframes pulseWomb {
+        @keyframes pulseWombHeart {
+          0%, 100% { transform: scale(0.92); opacity: 0.45; filter: drop-shadow(0 0 2px rgba(244,63,94,0.3)); }
+          50% { transform: scale(1.22); opacity: 1; filter: drop-shadow(0 0 8px rgba(244,63,94,0.8)); }
+        }
+        @keyframes heartbeatWave {
+          0% { stroke-dashoffset: 80; }
+          100% { stroke-dashoffset: -80; }
+        }
+        @keyframes gentleGlow {
           0%, 100% { transform: scale(1); opacity: 0.3; }
-          50% { transform: scale(1.18); opacity: 0.95; }
+          50% { transform: scale(1.15); opacity: 0.7; }
         }
       `}</style>
       
-      {/* Outer decorative soft glowing heart */}
+      {/* Soft halo glow behind womb */}
+      <circle
+        cx="58"
+        cy="64"
+        r="28"
+        fill="url(#pulseHalo)"
+        style={!prefersReducedMotion ? { animation: 'gentleGlow 2.4s ease-in-out infinite' } : {}}
+      />
+      
+      {/* Outer decorative protective heart silhouette */}
       <path
-        d="M50,85 C25,65 15,45 15,30 C15,18 24,10 35,10 C42,10 47,14 50,18 C53,14 58,10 65,10 C76,10 85,18 85,30 C85,45 75,65 50,85 Z"
-        className="opacity-15 stroke-brand-rose"
-        stroke="currentColor"
+        d="M60,105 C28,82 14,56 14,36 C14,21 26,10 40,10 C49,10 56,15 60,20 C64,15 71,10 80,10 C94,10 106,21 106,36 C106,56 92,82 60,105 Z"
+        className="stroke-brand-teal/20"
         strokeWidth="1.5"
+        strokeDasharray="4 4"
       />
       
-      {/* Elegant Silhouette of a Pregnant Mother */}
+      {/* Elegant Line-Art Silhouette of Pregnant Mother */}
+      {/* Head & Hair Profile */}
       <path
-        d="M48,16 C50.5,16 52.5,14 52.5,11.5 C52.5,9 50.5,7 48,7 C45.5,7 43.5,9 43.5,11.5 C43.5,14 45.5,16 48,16 Z 
-           M42,22 C42,22 47,24 48,29 C49,34 42,42 45,49 C47.5,54 55,54 54,64 C53,72 45,78 45,78"
+        d="M52,18 C55,18 57.5,15.5 57.5,12.5 C57.5,9.5 55,7 52,7 C49,7 46.5,9.5 46.5,12.5 C46.5,15.5 49,18 52,18 Z"
         stroke="currentColor"
-        strokeWidth="3.5"
+        strokeWidth="3"
         strokeLinecap="round"
-        strokeDasharray="120"
-        strokeDashoffset={!prefersReducedMotion ? "120" : "0"}
-        style={!prefersReducedMotion ? { animation: 'drawMother 3s linear infinite' } : {}}
       />
-      
-      {/* Pulsing baby/heart inside the womb */}
+      {/* Neck, Spine, Shoulder, Bust, Pregnant Belly, Thighs & Cradling Arm */}
       <path
-        d="M47,56 C45,54 42,54 42,56.5 C42,59 47,62 47,62 C47,62 52,59 52,56.5 C52,54 49,54 47,56 Z"
-        fill="#e11d48"
-        className="origin-[47px_58px]"
-        style={!prefersReducedMotion ? { animation: 'pulseWomb 1.6s ease-in-out infinite' } : {}}
+        d="M 46,17 C 46,24 50,26 51,32 C 52,38 43,45 44,52 C 45,58 53,60 55,68 C 57,75 66,74 65,85 C 64,95 54,100 52,102 M 48,34 C 42,39 40,46 45,54 C 49,61 46,67 52,70"
+        stroke="currentColor"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray="240"
+        strokeDashoffset={!prefersReducedMotion ? "240" : "0"}
+        style={!prefersReducedMotion ? { animation: 'drawMotherLine 3.2s ease-in-out infinite' } : {}}
+      />
+
+      {/* Gentle Pulsing Heart in the Womb */}
+      <g className="origin-[58px_65px]" style={!prefersReducedMotion ? { animation: 'pulseWombHeart 1.5s ease-in-out infinite' } : {}}>
+        <path
+          d="M58,72 C55,69 50,65 50,61 C50,57.5 53,55 55.5,55 C57,55 58,56 58,56 C58,56 59,55 60.5,55 C63,55 66,57.5 66,61 C66,65 61,69 58,72 Z"
+          fill="url(#wombGlow)"
+          stroke="#f43f5e"
+          strokeWidth="1.2"
+        />
+      </g>
+
+      {/* ECG Heartbeat Line Wave across bottom */}
+      <path
+        d="M20,96 L40,96 L44,90 L48,102 L53,84 L58,98 L62,94 L66,96 L100,96"
+        stroke="#087f8c"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray="80"
+        strokeDashoffset={!prefersReducedMotion ? "80" : "0"}
+        style={!prefersReducedMotion ? { animation: 'heartbeatWave 2s linear infinite' } : {}}
+        className="opacity-70"
       />
     </svg>
   )

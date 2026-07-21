@@ -8,6 +8,7 @@ const links = [
   ['Announcement', '/admin/announcement', ['admin']],
   ['Hero Slides', '/admin/hero-slides', ['admin']],
   ['Services', '/admin/services', ['admin']],
+  ['Category Cover Images', '/admin/category-images', ['admin']],
   ['Procedure Pathway', '/admin/procedure-pathway', ['admin']],
   ['Poster Slider', '/admin/poster-slider', ['admin']],
   ['Festival Banner', '/admin/festival-banner', ['admin']],
