@@ -37,6 +37,7 @@ import {
   subServices as fallbackSubServices,
 } from '../../mockData/services'
 import { doctors as fallbackDoctors } from '../../data/seed'
+import { displayDoctorQualifications } from '../../lib/doctorProfile'
 
 const iconMap = {
   Clock,
@@ -337,6 +338,7 @@ function buildVideoEmbedUrl(url = '') {
     return [...dbDoctors].sort((a, b) => (a.order || 0) - (b.order || 0))
   }, [dbDoctors])
   const leadDoctor = activeDoctors[0]
+  const leadDoctorQualifications = displayDoctorQualifications(leadDoctor?.qualifications)
 
   const allSubServices = getLockedSubServices(dbSubServices)
 
@@ -1115,7 +1117,7 @@ function buildVideoEmbedUrl(url = '') {
 
                 <div className="lg:col-span-8 space-y-4">
                   <h2 className="text-3xl font-black text-text-primary">{leadDoctor.name}</h2>
-                  <p className="text-sm font-bold text-primary">{leadDoctor.qualifications}</p>
+                  <p className="text-sm font-bold text-primary">{leadDoctorQualifications}</p>
                   <p className="text-sm text-text-secondary leading-relaxed">
                     {leadDoctor.bio}
                   </p>

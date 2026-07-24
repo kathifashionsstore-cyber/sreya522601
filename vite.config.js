@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'icons/icon.svg', 'icons/maskable.svg'],
+      includeAssets: ['logoo.webp'],
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'],
         runtimeCaching: [
@@ -30,8 +30,8 @@ export default defineConfig({
         display: 'standalone',
         start_url: '/',
         icons: [
-          { src: '/icons/icon.svg', sizes: '192x192 512x512', type: 'image/svg+xml' },
-          { src: '/icons/maskable.svg', sizes: '512x512', type: 'image/svg+xml', purpose: 'maskable' },
+          { src: '/logoo.webp', sizes: '192x192', type: 'image/webp', purpose: 'any' },
+          { src: '/logoo.webp', sizes: '512x512', type: 'image/webp', purpose: 'any maskable' },
         ],
         shortcuts: [
           { name: 'Book Appointment', url: '/appointment', description: 'Request a hospital appointment' },

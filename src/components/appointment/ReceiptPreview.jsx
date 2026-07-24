@@ -5,6 +5,7 @@ import { CalendarCheck, Download, Phone, ShieldCheck, Stethoscope, UserRound } f
 import { useSiteSettings } from '../../context/SiteSettingsContext'
 import { doctors as fallbackDoctors } from '../../data/seed'
 import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
+import { displayDoctorQualifications } from '../../lib/doctorProfile'
 import { Button } from '../shared/Button'
 
 // Sreya clinical palette for PDF styling
@@ -213,6 +214,7 @@ function getContactLine(settings = {}) {
 function ReceiptDocument({ appointment, settings, doctor, logoUrl, doctorPhotoUrl, qrDataUrl }) {
   const verifyUrl = `${import.meta.env.VITE_SITE_URL || 'https://www.sreyaivfcentre.com'}/verify-appointment?receiptId=${appointment.receiptId}`
   const contactLine = getContactLine(settings) || 'Phone pending confirmation'
+  const doctorQualifications = displayDoctorQualifications(doctor?.qualifications, 'Consultation details shared at hospital')
 
   let statusPillStyle = styles.statusPillPending
   if (appointment.status === 'confirmed') {
@@ -276,7 +278,7 @@ function ReceiptDocument({ appointment, settings, doctor, logoUrl, doctorPhotoUr
                   <View style={{ flex: 1, minWidth: 0 }}>
                     <Text style={styles.doctorName}>{doctor?.name || 'Dr. Vasanta Kiran Mekala'}</Text>
                     <Text style={styles.doctorMeta}>{doctor?.specialty || 'Fertility Specialist'}</Text>
-                    <Text style={styles.doctorMeta}>{doctor?.qualifications || 'Consultation details shared at hospital'}</Text>
+                    <Text style={styles.doctorMeta}>{doctorQualifications}</Text>
                   </View>
                 </View>
               </View>
@@ -347,6 +349,7 @@ export function ReceiptPreview({ appointment }) {
     : ''
   const logoUrl = absoluteAssetUrl(settings.logoUrl || '/logo.webp')
   const doctorPhotoUrl = absoluteAssetUrl(doctor?.photoUrl || '')
+  const doctorQualifications = displayDoctorQualifications(doctor?.qualifications, 'Consultation details shared at hospital')
   const contactLine = getContactLine(settings) || 'Phone pending confirmation'
 
   useEffect(() => {
@@ -435,7 +438,7 @@ export function ReceiptPreview({ appointment }) {
               <p className="text-xs font-black uppercase tracking-widest text-primary">Specialist Care</p>
               <h3 className="text-base font-black text-brand-navy">{doctor?.name || 'Dr. Vasanta Kiran Mekala'}</h3>
               <p className="text-xs font-semibold leading-5 text-slate-600 truncate">{doctor?.specialty || 'Fertility Specialist'}</p>
-              <p className="text-[10px] text-slate-500 truncate">{doctor?.qualifications || 'Consultation details shared at hospital'}</p>
+              <p className="text-[10px] text-slate-500 truncate">{doctorQualifications}</p>
             </div>
           </div>
         </div>

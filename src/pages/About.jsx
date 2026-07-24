@@ -6,6 +6,7 @@ import { placeholderImages } from '../data/seed'
 import { useSiteSettings } from '../context/SiteSettingsContext'
 import { useFirestoreCollection, useFirestoreDoc } from '../hooks/useFirestoreCollection'
 import { fallbackDoctors } from '../mockData/doctors'
+import { displayDoctorQualifications } from '../lib/doctorProfile'
 
 const hospitalStats = [
   { label: 'Happy Families', value: '5,000+', icon: Users, desc: 'Couples & mothers supported' },
@@ -22,6 +23,7 @@ export default function About() {
   const { data: dbDoctors } = useFirestoreCollection('doctors', fallbackDoctors)
 
   const doctor = dbDoctors && dbDoctors.length ? dbDoctors[0] : fallbackDoctors[0]
+  const doctorQualifications = displayDoctorQualifications(doctor?.qualifications)
 
   const journeyMilestones = dbJourney?.milestones || about.milestones || [
     { year: '2010', title: 'Founding Vision', description: 'Established with a mission to bring world-class fertility and maternity care to Narasaraopet.' },
@@ -125,7 +127,7 @@ export default function About() {
                   <span className="text-[10px] font-black uppercase tracking-wider text-brand-rose">Lead Specialist &amp; Founder</span>
                   <h3 className="text-xl font-black text-brand-navy">{doctor?.name || 'Dr. M. Vasanta Kiran'}</h3>
                   <p className="text-xs font-bold text-brand-teal mt-0.5">{doctor?.specialty || 'Fertility & Gynaecology Specialist'}</p>
-                  <p className="text-[10px] text-slate-500 font-semibold">{doctor?.qualifications || 'M.S (OBG), MRCOG (UK)'}</p>
+                  <p className="text-[10px] text-slate-500 font-semibold">{doctorQualifications}</p>
                 </div>
               </div>
 

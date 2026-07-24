@@ -1,5 +1,6 @@
 import { Award, Clock, GraduationCap } from 'lucide-react'
 import { yearsSince } from '../../lib/dateUtils'
+import { displayDoctorQualifications } from '../../lib/doctorProfile'
 
 export function DoctorProfileCard({ doctor }) {
   const experienceYears =
@@ -21,7 +22,7 @@ export function DoctorProfileCard({ doctor }) {
         </div>
         <p className="mt-4 text-sm leading-6 text-slate-600">{doctor.bio}</p>
         <div className="mt-5 grid gap-3 text-sm text-slate-700">
-          <p className="flex gap-2"><GraduationCap className="size-5 text-brand-rose" /> {doctor.qualifications}</p>
+          <p className="flex gap-2"><GraduationCap className="size-5 text-brand-rose" /> {displayDoctorQualifications(doctor.qualifications)}</p>
           <p className="flex gap-2"><Award className="size-5 text-brand-rose" /> {experienceYears} years experience, {doctor.proceduresCount}</p>
           <p className="flex gap-2"><Clock className="size-5 text-brand-rose" /> {doctor.consultationTiming}</p>
         </div>

@@ -7,6 +7,7 @@ import { Seo } from '../components/shared/Seo'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { useSiteSettings } from '../context/SiteSettingsContext'
 import { doctors as fallbackDoctors } from '../data/seed'
+import { displayDoctorQualifications, doctorQualificationList } from '../lib/doctorProfile'
 import { physicianJsonLd } from '../lib/seo'
 
 // Animated count-up component triggered on scroll
@@ -236,6 +237,7 @@ export default function Doctors() {
   }, [dbDoctors])
 
   const leadDoctor = items[0] || fallbackDoctors[0]
+  const leadDoctorQualifications = displayDoctorQualifications(leadDoctor?.qualifications)
 
   const milestonesList = useMemo(() => {
     return (settings.journeyMilestones && settings.journeyMilestones.length > 0)
@@ -243,21 +245,10 @@ export default function Doctors() {
       : defaultMilestones
   }, [settings.journeyMilestones])
 
-  // Parse doctor qualifications with fallback
-  const qualificationsList = useMemo(() => {
-    if (leadDoctor?.qualifications && 
-        leadDoctor.qualifications !== 'Qualifications pending hospital confirmation' && 
-        leadDoctor.qualifications !== 'Qualifications pending') {
-      return leadDoctor.qualifications
-        .split(/[\n,]/)
-        .map(q => q.trim())
-        .filter(Boolean)
-    }
-    return [
-      'M.S (OBG)',
-      'MRCOG (UK)'
-    ]
-  }, [leadDoctor?.qualifications])
+  const qualificationsList = useMemo(
+    () => doctorQualificationList(leadDoctor?.qualifications),
+    [leadDoctor?.qualifications],
+  )
 
   return (
     <>
@@ -583,7 +574,7 @@ export default function Doctors() {
                       <h5 className="font-black text-brand-navy text-xl font-display">{leadDoctor.name}</h5>
                       <p className="text-xs font-bold text-[#087f8c]">{leadDoctor.specialty}</p>
                       <div className="text-xs text-slate-500 font-semibold leading-relaxed">
-                        {leadDoctor.qualifications}
+                        {leadDoctorQualifications}
                       </div>
                     </div>
                   </div>
