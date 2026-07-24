@@ -233,7 +233,7 @@ export function StarCareChatbot() {
         richContent: {
           type: 'doctor',
           name: 'Dr. Vasanta Kiran Mekala',
-          credentials: 'MBBS, DGO, DNB (OBGYN), Fellowship in Reproductive Medicine (IVF)',
+          credentials: 'M.S (OBG), MRCOG (UK)',
           photo: 'https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&w=300&q=80'
         }
       }

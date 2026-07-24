@@ -201,7 +201,7 @@ export const settings = {
   },
   journeyDoctor: {
     name: "Dr. M. Vasanta Kiran",
-    qualifications: "M.B.B.S from Guntur Medical College\nMS (Obg) from Osmania University\nMRCOG from UK\nFellowship in Infertility",
+    qualifications: "M.S (OBG), MRCOG (UK)",
     photoUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80"
   },
   journeyMilestones: [

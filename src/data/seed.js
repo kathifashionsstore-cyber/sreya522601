@@ -437,7 +437,7 @@ export const doctors = [
     name: 'Dr. M. Vasanta Kiran',
     photoUrl: placeholderImages.doctor,
     altText: 'Doctor profile placeholder image',
-    qualifications: 'Qualifications pending hospital confirmation',
+    qualifications: 'M.S (OBG), MRCOG (UK)',
     specialty: 'Infertility Specialist, Gynecologist, and Obstetrician',
     practicingSinceYear: 2009,
     experienceYears: 'experienceYears',

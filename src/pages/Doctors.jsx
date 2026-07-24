@@ -254,10 +254,8 @@ export default function Doctors() {
         .filter(Boolean)
     }
     return [
-      'M.B.B.S — Guntur Medical College',
-      'MS (Obg) — Osmania University',
-      'MRCOG — UK',
-      'Fellowship in Infertility'
+      'M.S (OBG)',
+      'MRCOG (UK)'
     ]
   }, [leadDoctor?.qualifications])
 
@@ -600,4 +598,3 @@ export default function Doctors() {
     </>
   )
 }
-

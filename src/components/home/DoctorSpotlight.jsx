@@ -14,7 +14,7 @@ export function DoctorSpotlight() {
 
   const docPhoto = doctor.photoUrl || 'https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&w=800&q=80'
   const name = doctor.name || 'Dr. Vasanta Kiran Mekala'
-  const qualifications = doctor.qualifications || 'MBBS, DGO, DNB (OBGYN), Fellowship in Reproductive Medicine (IVF)'
+  const qualifications = doctor.qualifications || 'M.S (OBG), MRCOG (UK)'
   const aboutDocText = doctor.bio || 'Dr. Vasanta Kiran Mekala is the founder and lead infertility specialist at Sreya Hospitals. With over 17 years of dedicated clinical expertise, she personally guides patients through follicular scans, precise medication protocols, and surgical cycles, ensuring consistency and absolute clinical transparency at every step.'
   
   const expYears = doctor.practicingSinceYear ? (new Date().getFullYear() - doctor.practicingSinceYear) : 17
@@ -91,4 +91,3 @@ export function DoctorSpotlight() {
     </section>
   )
 }
-

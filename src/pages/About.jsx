@@ -125,7 +125,7 @@ export default function About() {
                   <span className="text-[10px] font-black uppercase tracking-wider text-brand-rose">Lead Specialist &amp; Founder</span>
                   <h3 className="text-xl font-black text-brand-navy">{doctor?.name || 'Dr. M. Vasanta Kiran'}</h3>
                   <p className="text-xs font-bold text-brand-teal mt-0.5">{doctor?.specialty || 'Fertility & Gynaecology Specialist'}</p>
-                  <p className="text-[10px] text-slate-500 font-semibold">{doctor?.qualifications || 'MBBS, DGO, DRM (Germany), Fellowship in IVF'}</p>
+                  <p className="text-[10px] text-slate-500 font-semibold">{doctor?.qualifications || 'M.S (OBG), MRCOG (UK)'}</p>
                 </div>
               </div>
 

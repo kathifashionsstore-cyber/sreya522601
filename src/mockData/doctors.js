@@ -4,7 +4,7 @@ export const doctors = [
     name: "Dr. Vasanta Kiran Mekala",
     photoUrl: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1000&q=80", // PLACEHOLDER — replace via admin panel in Phase 2
     altText: "Dr. Vasanta Kiran Mekala - Infertility Specialist",
-    qualifications: "M.B.B.S, D.G.O (Obstetrics & Gynaecology), Infertility Specialist",
+    qualifications: "M.S (OBG), MRCOG (UK)",
     specialty: "Infertility Specialist",
     experienceYears: 17, // Over 17 years experience
     proceduresCount: "2,000+ aspiring parents helped",
