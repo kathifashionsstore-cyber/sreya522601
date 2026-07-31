@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { X, ZoomIn, ZoomOut, ArrowLeft, ArrowRight, Share2 } from 'lucide-react'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { gallery as fallbackGallery } from '../data/seed'
@@ -7,6 +7,7 @@ import { Seo } from '../components/shared/Seo'
 
 export default function Gallery() {
   const { data: dbGallery } = useFirestoreCollection('gallery', fallbackGallery)
+  const prefersReducedMotion = useReducedMotion()
   const items = useMemo(() => {
     return (dbGallery && dbGallery.length ? dbGallery : fallbackGallery)
       .filter((item) => item.active !== false && item.status !== 'draft')
@@ -18,6 +19,25 @@ export default function Gallery() {
   const [showShareMenu, setShowShareMenu] = useState(false)
 
   const selectedItem = selectedIdx !== null ? items[selectedIdx] : null
+  const galleryIntroVariants = {
+    hidden: prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 28 },
+    show: { opacity: 1, y: 0 },
+  }
+  const cardVariants = {
+    hidden: prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 70, scale: 0.9, rotateZ: -1.5, filter: 'blur(10px)' },
+    show: (idx) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotateZ: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.72,
+        delay: prefersReducedMotion ? 0 : Math.min((idx % 6) * 0.11, 0.55),
+        ease: [0.16, 1, 0.3, 1],
+      },
+    }),
+  }
 
   // Lightbox navigation
   const handlePrev = () => {
@@ -93,8 +113,21 @@ export default function Gallery() {
       </section>
 
       {/* CLEAN PHOTO MASONRY GRID */}
-      <section className="bg-[#FAFDFD] py-12 sm:py-20 relative min-h-screen">
+      <section className="relative min-h-screen overflow-hidden bg-[#FAFDFD] py-12 sm:py-20">
+        <div className="pointer-events-none absolute left-0 top-0 h-40 w-full bg-gradient-to-b from-[#D8B26E]/10 to-transparent" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={galleryIntroVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.55, ease: 'easeOut' }}
+            className="mx-auto mb-8 max-w-2xl text-center sm:mb-12"
+          >
+            <span className="text-xs font-black uppercase tracking-[0.22em] text-[#3F8F84]">Moments of care</span>
+            <h2 className="mt-3 font-display text-3xl font-black text-[#173A38] sm:text-4xl">Scroll through Sreya spaces</h2>
+          </motion.div>
+
           {items.length > 0 ? (
             <motion.div 
               layout 
@@ -104,19 +137,22 @@ export default function Gallery() {
                 <motion.div
                   layout
                   key={item.id || idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: Math.min(idx * 0.03, 0.3) }}
-                  className="break-inside-avoid rounded-2xl overflow-hidden mb-5 bg-white cursor-pointer relative group border border-[#E5ECEB] shadow-sm hover:shadow-lg transition-shadow duration-300"
+                  custom={idx}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.22, margin: '0px 0px -8% 0px' }}
+                  className="group relative mb-5 break-inside-avoid cursor-pointer overflow-hidden rounded-2xl border border-[#E5ECEB] bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl"
                   onClick={() => setSelectedIdx(idx)}
                 >
-                  <div className="relative overflow-hidden w-full">
+                  <div className="relative w-full overflow-hidden">
                     <img 
                       src={item.imageUrl} 
-                      alt={item.altText || 'Gallery photo'} 
-                      className="w-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none"
+                      alt="" 
+                      className="pointer-events-none w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       loading="lazy"
                     />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#173A38]/20 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   </div>
                 </motion.div>
               ))}
@@ -237,7 +273,7 @@ export default function Gallery() {
                   exit={{ opacity: 0 }}
                   transition={{ type: "spring", damping: 25, stiffness: 120 }}
                   src={selectedItem.imageUrl}
-                  alt={selectedItem.altText || 'Full view image'}
+                  alt=""
                   className={`max-h-[85vh] max-w-[92vw] object-contain rounded-lg transition-shadow duration-300 ${
                     isZoomed ? 'cursor-zoom-out shadow-2xl' : 'cursor-zoom-in'
                   }`}

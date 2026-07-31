@@ -73,7 +73,7 @@ export function IVFLoader({ inline = false }) {
         style={animated ? { animation: 'doctorOrbit 8s linear infinite' } : {}}
       />
       <div className="absolute -right-1 top-6 grid size-10 place-items-center rounded-full border border-[var(--color-border)] bg-white shadow-soft">
-        <img src="/logoo.webp" alt="" className="size-7 object-contain" />
+        <img src="/logo.webp" alt="" className="size-7 object-contain" />
       </div>
 
       <svg viewBox="0 0 140 140" className="relative z-10 size-32" fill="none" aria-hidden="true">

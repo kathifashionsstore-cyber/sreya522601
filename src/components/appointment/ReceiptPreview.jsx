@@ -212,7 +212,8 @@ function getContactLine(settings = {}) {
 }
 
 function ReceiptDocument({ appointment, settings, doctor, logoUrl, doctorPhotoUrl, qrDataUrl }) {
-  const verifyUrl = `${import.meta.env.VITE_SITE_URL || 'https://www.sreyaivfcentre.com'}/verify-appointment?receiptId=${appointment.receiptId}`
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://www.sreyaivfcentre.com'
+  const verifyUrl = `${siteUrl}/verify-appointment?receiptId=${appointment.receiptId}`
   const contactLine = getContactLine(settings) || 'Phone pending confirmation'
   const doctorQualifications = displayDoctorQualifications(doctor?.qualifications, 'Consultation details shared at hospital')
 
@@ -344,8 +345,9 @@ export function ReceiptPreview({ appointment }) {
     return doctors[0]
   }, [dbDoctors])
 
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://www.sreyaivfcentre.com'
   const verifyUrl = appointment
-    ? `${import.meta.env.VITE_SITE_URL || 'https://www.sreyaivfcentre.com'}/verify-appointment?receiptId=${appointment.receiptId}`
+    ? `${siteUrl}/verify-appointment?receiptId=${appointment.receiptId}`
     : ''
   const logoUrl = absoluteAssetUrl(settings.logoUrl || '/logo.webp')
   const doctorPhotoUrl = absoluteAssetUrl(doctor?.photoUrl || '')

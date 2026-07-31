@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Facebook, Instagram, MessageCircle, Phone, Smartphone, X, Youtube } from 'lucide-react'
+import { Facebook, Instagram, MessageCircle, Phone, X, Youtube } from 'lucide-react'
 import { useSiteSettings } from '../../context/SiteSettingsContext'
 
 export function FloatingButtons() {
@@ -53,12 +53,12 @@ export function FloatingButtons() {
   return (
     <>
       {/* Left Floating Stack: Social Links */}
-      <div className="fixed bottom-20 left-3 z-40 flex flex-col gap-2.5 lg:bottom-6 lg:left-5">
+      <div className="fixed left-3 z-40 flex flex-col gap-2 bottom-[calc(5.75rem+env(safe-area-inset-bottom))] sm:left-4 lg:bottom-6 lg:left-5 lg:gap-2.5">
         <a
           href={instagramUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="grid size-11 place-items-center rounded-2xl shadow-lift hover:scale-110 transition-transform bg-white border border-slate-100 text-[#E4405F]"
+          className="grid size-10 place-items-center rounded-xl bg-white text-[#E4405F] shadow-lift ring-1 ring-slate-100 transition-transform hover:scale-105 sm:size-11 sm:rounded-2xl"
           aria-label="Sreya Hospitals Instagram"
           title="Instagram Page"
         >
@@ -68,7 +68,7 @@ export function FloatingButtons() {
           href={facebookUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="grid size-11 place-items-center rounded-2xl shadow-lift hover:scale-110 transition-transform bg-white border border-slate-100 text-[#1877F2]"
+          className="grid size-10 place-items-center rounded-xl bg-white text-[#1877F2] shadow-lift ring-1 ring-slate-100 transition-transform hover:scale-105 sm:size-11 sm:rounded-2xl"
           aria-label="Sreya Hospitals Facebook"
           title="Facebook Page"
         >
@@ -78,7 +78,7 @@ export function FloatingButtons() {
           href={youtubeUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="grid size-11 place-items-center rounded-2xl shadow-lift hover:scale-110 transition-transform bg-white border border-slate-100 text-[#FF0000]"
+          className="grid size-10 place-items-center rounded-xl bg-white text-[#FF0000] shadow-lift ring-1 ring-slate-100 transition-transform hover:scale-105 sm:size-11 sm:rounded-2xl"
           aria-label="Sreya Hospitals YouTube"
           title="YouTube Channel"
         >
@@ -87,18 +87,20 @@ export function FloatingButtons() {
       </div>
 
       {/* Right Floating Stack: Action Buttons */}
-      <div className="fixed bottom-20 right-3 z-40 flex flex-col gap-2.5 lg:bottom-6 lg:right-5 items-end">
+      <div className="fixed right-3 z-40 flex flex-col items-end gap-2 bottom-[calc(5.75rem+env(safe-area-inset-bottom))] sm:right-4 lg:bottom-6 lg:right-5 lg:gap-2.5">
         {/* PWA Install App Button */}
         {showInstallBtn && (
           <button
             type="button"
             onClick={handleInstallClick}
-            className="flex items-center gap-2 rounded-full bg-brand-navy px-4 py-2 text-xs font-black text-white shadow-xl hover:scale-105 transition-all border-2 border-white"
+            className="group relative grid size-11 place-items-center rounded-2xl border-2 border-white bg-brand-navy text-white shadow-xl transition-transform hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/25 sm:size-12"
             aria-label="Install App"
             title="Install Hospital Web App"
           >
-            <img src="/logo.webp" alt="Sreya Logo" className="h-5 w-auto object-contain bg-white rounded p-0.5" />
-            <span>Install App</span>
+            <img src="/logoo.webp" alt="" className="size-7 rounded-lg bg-white object-contain p-0.5" />
+            <span className="pointer-events-none absolute right-[calc(100%+0.55rem)] top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full border border-white/80 bg-brand-navy px-3 py-1.5 text-[11px] font-black text-white shadow-xl group-hover:block group-focus-visible:block">
+              Install App
+            </span>
           </button>
         )}
 
@@ -107,7 +109,7 @@ export function FloatingButtons() {
           href={`https://wa.me/91${whatsappNumber}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="grid size-11 place-items-center rounded-2xl shadow-lift hover:scale-110 transition-transform bg-[#25D366] text-white border border-slate-100"
+          className="grid size-11 place-items-center rounded-2xl bg-[#25D366] text-white shadow-lift ring-1 ring-white/80 transition-transform hover:scale-105 sm:size-12"
           aria-label="Chat on WhatsApp"
           title="WhatsApp Support"
         >
@@ -117,7 +119,7 @@ export function FloatingButtons() {
         {/* Phone Call Floating Button */}
         <a
           href={`tel:${phoneNumber}`}
-          className="grid size-11 place-items-center rounded-2xl shadow-lift hover:scale-110 transition-transform bg-brand-teal text-white border border-slate-100"
+          className="grid size-11 place-items-center rounded-2xl bg-brand-teal text-white shadow-lift ring-1 ring-white/80 transition-transform hover:scale-105 sm:size-12"
           aria-label="Call Hospital"
           title="Call Hospital"
         >
