@@ -317,7 +317,7 @@ export function StarCareChatbot() {
       {/* Bot Launcher Button */}
       <button
         type="button"
-        className="fixed right-3 z-40 grid size-11 place-items-center rounded-2xl border border-white bg-primary text-white shadow-lift transition-transform hover:scale-105 bottom-[calc(15.5rem+env(safe-area-inset-bottom))] sm:right-4 lg:bottom-[13rem] lg:right-5"
+        className="fixed right-3 z-40 grid size-11 place-items-center rounded-2xl border border-white bg-primary text-white shadow-lift transition-transform hover:scale-105 bottom-[calc(18.75rem+env(safe-area-inset-bottom))] sm:right-4 lg:bottom-[16.75rem] lg:right-5"
         onClick={() => setOpen(true)}
         aria-label="Open Star Care AI"
         title="Chat with Star Care AI"

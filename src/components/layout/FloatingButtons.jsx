@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Facebook, Instagram, MessageCircle, Phone, X, Youtube } from 'lucide-react'
+import { Facebook, Instagram, MessageCircle, Phone, Star, X, Youtube } from 'lucide-react'
 import { useSiteSettings } from '../../context/SiteSettingsContext'
+
+const fallbackReviewUrl = 'https://www.google.com/search?sca_esv=734e3ccf7d0a1214&sxsrf=APpeQnvwqc2rdu3mNDHz8-8guA-MlbWO-A:1785559547033&q=sreya+hospitals+and+ivf+centre+reviews&uds=AJ5uw1_dDM0QRrBvstcLgcNOdWNUQ7qKvemyOfv6I4NZL-gJjQIop4lZYt3SXWDIftaO-9qySDFXz1zaHOCjhtRmqIhdagZ-pnPVkLOaitd_HsUA3KyMLHT92fGK4fEPgjiyUNbgQRtx57zP5MkqNzbjlMFNL6q8GP3WNXPZSmd22pmuRTnHQNiFdX3r_ooyPHbPRDIDAurSGRDRfG-ZBYc04mHJU1d4EYahN_Pwg1uWz62jC9zp7jL2zfZx9BPU23pqjvMt5yu0a2Zme5VqbXlQb0r6cc0LGMm8iyZucIPbIIFbQ3DLujCDZKuXmcExdyMxEzlcM6pzD7Zhbbrk1R03sGTmRXNPEKlqQN3I3o721ggvMlPpInbvjkXwIeA_n5tRV0CkeoxYmgljhyAUQS16_4ByrccliqCmike9knB3WWsbCkSuM2RCXrDpZsxJYXZ3dAT7KNI1NU9UTj3I0cQPLnv6-ATvvEUIvPj6_QrZlC-s4s3D8f0hLe8mCawfggrRPHNL3nmCSeaCV_axsnLw27PjvZb24hvjknNToob28OjzgB7iedo&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_xUdhDUJ5xfqBSKmKBnBepCfGjDA_ByKdFSOu1fWySeWE69aYzlqWk4Dc2tSpQZWQW5GZSkKNx5LdQUg2TT6_YzC-UPl5Bid--7s_QkImixubescPA%3D%3D&sa=X&ved=2ahUKEwjBu5rUz_6VAxUtjOEIHa0HM9QQk8gLegQIHRAB&ictx=1&stq=1&cs=1&lei=-3ltaoHSAa2YhvcPrY_MoQ0#ebo=1&lrd=0x3a4a8154f67b485f:0x2cefc6d088e33924,3,,,,'
 
 export function FloatingButtons() {
   const { settings } = useSiteSettings()
@@ -46,6 +48,7 @@ export function FloatingButtons() {
   const youtubeUrl = settings.youtube || 'https://www.youtube.com/@sreyahospitalsivfcentre'
   const whatsappNumber = settings.whatsapp || settings.phoneMobile || '9390328255'
   const phoneNumber = settings.phone || settings.phoneMobile || '9390328255'
+  const reviewUrl = settings.googleReviewUrl || fallbackReviewUrl
 
   // Show Install App button on web and mobile unless app is running in standalone mode
   const showInstallBtn = !isStandalone
@@ -103,6 +106,21 @@ export function FloatingButtons() {
             </span>
           </button>
         )}
+
+        {/* Google Review Floating Button */}
+        <a
+          href={reviewUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative grid size-11 place-items-center rounded-2xl border-2 border-white bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-xl transition-transform hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-300/35 sm:size-12"
+          aria-label="Write Google Review"
+          title="Write Google Review"
+        >
+          <Star className="size-6 fill-white text-white" />
+          <span className="pointer-events-none absolute right-[calc(100%+0.55rem)] top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full border border-white/80 bg-amber-500 px-3 py-1.5 text-[11px] font-black text-white shadow-xl group-hover:block group-focus-visible:block">
+            Write Review
+          </span>
+        </a>
 
         {/* WhatsApp Floating Button */}
         <a
