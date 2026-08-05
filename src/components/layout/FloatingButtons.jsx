@@ -158,7 +158,7 @@ export function FloatingButtons() {
             </button>
 
             <div className="mx-auto flex justify-center">
-              <img src="/logo.webp" alt="Sreya Hospitals Logo" className="h-12 w-auto object-contain" />
+              <img src="/logoo.webp" alt="Sreya Hospitals Logo" className="h-12 w-auto object-contain" />
             </div>
 
             <div>

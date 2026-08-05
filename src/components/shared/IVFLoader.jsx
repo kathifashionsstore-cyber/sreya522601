@@ -20,7 +20,7 @@ export function IVFLoader({ inline = false }) {
         className="grid size-24 place-items-center rounded-3xl border border-[var(--color-border)] bg-white p-4 shadow-soft sm:size-28"
         style={{ animation: 'sreyaLogoPulse 1.8s ease-in-out infinite' }}
       >
-        <img src="/logo.webp" alt="Sreya Hospitals" className="max-h-full max-w-full object-contain" />
+        <img src="/logoo.webp" alt="Sreya Hospitals" className="max-h-full max-w-full object-contain" />
       </div>
       <p className="sreya-loading-dots text-sm font-black uppercase tracking-[0.22em] text-primary">
         Loading

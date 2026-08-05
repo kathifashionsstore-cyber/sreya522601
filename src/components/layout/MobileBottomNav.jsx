@@ -14,9 +14,9 @@ export function MobileTopBar() {
   return (
     <div className="flex items-center justify-between border-b border-slate-100 bg-white/95 px-4 py-3 backdrop-blur lg:hidden">
       <Link to="/" className="flex items-center gap-2">
-        {settings.logoUrl || '/logo.webp' ? (
+        {settings.logoUrl || '/logoo.webp' ? (
           <img 
-            src={settings.logoUrl || '/logo.webp'} 
+            src={settings.logoUrl || '/logoo.webp'} 
             alt={settings.hospitalName || 'Sreya Hospitals'} 
             className="h-9 w-auto object-contain rounded bg-white shadow-soft"
           />

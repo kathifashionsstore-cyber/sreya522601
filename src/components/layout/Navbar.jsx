@@ -63,9 +63,9 @@ export function Navbar() {
       <div className="mx-auto flex h-20 items-center justify-between gap-6 px-6 max-w-7xl">
         {/* Brand Logo & Name */}
         <Link to="/" className="flex items-center gap-3 shrink-0" aria-label="Sreya Hospitals home">
-          {settings.logoUrl || '/logo.webp' ? (
+          {settings.logoUrl || '/logoo.webp' ? (
             <img 
-              src={settings.logoUrl || '/logo.webp'} 
+              src={settings.logoUrl || '/logoo.webp'} 
               alt={settings.hospitalName || 'Sreya Hospitals'} 
               className="h-11 w-auto object-contain rounded-lg bg-white shadow-soft"
             />
@@ -79,7 +79,7 @@ export function Navbar() {
               {settings.hospitalName || 'Sreya Hospitals'}
             </span>
             <span className="text-[10px] font-bold text-brand-rose tracking-wider uppercase">
-              &amp; IVF Centre
+            
             </span>
           </div>
         </Link>

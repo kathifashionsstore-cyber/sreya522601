@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sreya Hospitals">
-  <rect width="64" height="64" rx="14" fill="#087f8c"/>
-  <path d="M31 12c-8 8-17 13-17 25 0 9 7 15 16 15 10 0 18-7 18-17 0-12-9-16-17-23Z" fill="#fff2ef"/>
-  <path d="M32 20v24M20 32h24" stroke="#d95f76" stroke-width="6" stroke-linecap="round"/>
-</svg>

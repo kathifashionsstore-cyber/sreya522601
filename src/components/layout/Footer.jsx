@@ -94,10 +94,10 @@ export function Footer() {
 
         {/* Column 4: Social Icons & Trust */}
         <div>
-          {settings.logoUrl || '/logo.webp' ? (
+          {settings.logoUrl || '/logoo.webp' ? (
             <div className="mb-4">
               <img 
-                src={settings.logoUrl || '/logo.webp'} 
+                src={settings.logoUrl || '/logoo.webp'} 
                 alt={settings.hospitalName || 'Sreya Hospitals'} 
                 className="h-10 w-auto object-contain rounded bg-white p-1"
               />

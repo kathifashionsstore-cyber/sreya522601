@@ -493,7 +493,7 @@ export function ReceiptPreview({ appointment }) {
   }, [dbDoctors])
 
   const verifyUrl = appointment ? buildVerifyUrl(appointment.receiptId) : ''
-  const logoUrl = absoluteAssetUrl(settings.logoUrl || '/logo.webp')
+  const logoUrl = absoluteAssetUrl(settings.logoUrl || '/logoo.webp')
   const doctorPhotoUrl = absoluteAssetUrl(doctor?.photoUrl || '')
   const doctorQualifications = displayDoctorQualifications(doctor?.qualifications, 'Consultation details shared at hospital')
   const contactLine = getContactLine(settings) || '08647-222888 | 9390328255 | contact@sreyaivfcentre.com'

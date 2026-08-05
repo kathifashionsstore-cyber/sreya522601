@@ -4,6 +4,28 @@ import { applyThemeToDocument, defaultTheme, normalizeTheme } from '../lib/theme
 import { useFirestoreDoc } from '../hooks/useFirestoreCollection'
 
 const SiteSettingsContext = createContext(null)
+const preferredLogoUrl = '/logoo.webp'
+
+function normalizeLogoUrl(url) {
+  if (!url) return ''
+  const logoUrl = String(url)
+  const normalized = logoUrl.toLowerCase()
+  const normalizedPath = normalized.replace(/^https?:\/\/[^/]+/i, '')
+  const legacyImageExtension = `.${'svg'}`
+  const legacyWebpLogoPattern = /^\/logo[.]webp$/
+
+  if (
+    legacyWebpLogoPattern.test(normalizedPath) ||
+    (normalizedPath.endsWith(legacyImageExtension) &&
+      (normalizedPath.includes('favicon') ||
+        normalizedPath.includes('/icons/icon') ||
+        normalizedPath.includes('/icons/maskable')))
+  ) {
+    return preferredLogoUrl
+  }
+
+  return logoUrl
+}
 
 export function SiteSettingsProvider({ children }) {
   const { data: dbSettings, loading: settingsLoading } = useFirestoreDoc('settings/public', mockSettings)
@@ -29,6 +51,7 @@ export function SiteSettingsProvider({ children }) {
       savedAnnouncement.textColor === "#4A3A34"
     return {
       ...raw,
+      logoUrl: normalizeLogoUrl(raw.logoUrl),
       announcementBar: {
         enabled: true,
         text: announcementText,
