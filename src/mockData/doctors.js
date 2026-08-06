@@ -16,12 +16,12 @@ export const doctors = [
       "Federation of Obstetric and Gynaecological Societies of India (FOGSI)",
       "Indian Society for Assisted Reproduction (ISAR)"
     ],
-    consultationTiming: "Daily 09:00 am – 06:00 pm (Sunday by prior appointment only)",
+    consultationTiming: "Monday to Saturday: 9:00 AM to 9:00 PM\nSunday: 10:00 AM to 2:00 PM",
     freeCampInfo: "Leads the free fertility counselling camp on the last Sunday of every month.",
     bio: "Dr. Vasanta Kiran Mekala is an accomplished Infertility specialist with over 17 years of experience. Under her dedicated leadership, Sreya Hospitals & IVF Centre has operated for over 7 years in Narasaraopet, acting as a beacon of hope for families. She proudly delivered the first test-tube baby in the region and has helped more than 2,000 aspiring parents realize their dream of starting a family.",
     faqs: [
       { q: "Can I bring my previous fertility test reports?", a: "Yes, please bring all prior prescriptions, blood tests, and ultrasound scan reports for a comprehensive review." },
-      { q: "Is Dr. Vasanta Kiran available for daily consultations?", a: "Yes, she conducts outpatient consultations daily from 09:00 am to 06:00 pm. Prior booking is recommended." },
+      { q: "Is Dr. Vasanta Kiran available for daily consultations?", a: "Yes. Consultation timings are Monday to Saturday, 9:00 AM to 9:00 PM, and Sunday, 10:00 AM to 2:00 PM. Prior booking is recommended." },
       { q: "Does the doctor perform laparoscopic surgery?", a: "Yes, Dr. Vasanta Kiran specializes in keyhole surgeries for infertility issues, ovarian cysts, fibroids, and hysteroscopy." }
     ],
   }

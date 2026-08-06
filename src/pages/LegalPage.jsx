@@ -29,7 +29,7 @@ function PrivacyPolicyContent() {
           <strong>Affiliate:</strong> An entity under common ownership or control with our organization.
         </li>
         <li>
-          <strong>Company:</strong> Refers to <strong>Sreya Hospitals &amp; IVF Centre</strong>, located at {settings.legalAddress || 'D No 16-2-116, Guntur Road, Narasaraopet, Palnadu Dist.'}
+          <strong>Company:</strong> Refers to <strong>Sreya Hospitals &amp; IVF Centre</strong>, located at {settings.legalAddress || 'Guntur Road, Narsaraopet, Palnadu District, Andhra Pradesh, India - 522601'}
         </li>
         <li>
           <strong>Cookies:</strong> Small files stored on your device to enhance your experience and provide analytics.

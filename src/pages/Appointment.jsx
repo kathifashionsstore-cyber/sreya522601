@@ -25,10 +25,10 @@ export default function Appointment() {
           <aside className="h-fit rounded-lg bg-white p-6 shadow-soft">
             <h2 className="text-xl font-black text-brand-navy">Before you submit</h2>
             <div className="mt-4 grid gap-4 text-sm leading-6 text-slate-600">
-              <p><strong>Phone:</strong> {settings.phone || 'Pending confirmation'}</p>
-              <p><strong>WhatsApp:</strong> {settings.whatsapp || 'Pending confirmation'}</p>
+              <p><strong>Phone:</strong> {settings.phoneMobile || settings.phone || '9390328255'}</p>
+              <p><strong>WhatsApp:</strong> {settings.whatsapp || settings.phoneMobile || '9390328255'}</p>
               <p><strong>Address:</strong> {settings.address}</p>
-              <p><strong>Hours:</strong> {settings.businessHours}</p>
+              <p className="whitespace-pre-line"><strong>Hours:</strong> {settings.businessHours}</p>
             </div>
           </aside>
         </div>

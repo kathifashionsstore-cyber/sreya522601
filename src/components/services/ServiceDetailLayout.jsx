@@ -110,7 +110,32 @@ function buildVideoEmbedUrl(url = '') {
   })
 
   return `https://www.youtube.com/embed/${id}?${params.toString()}`
-}export function ServiceDetailLayout({ category, service: rawService }) {
+}
+
+function getAppointmentDepartmentForService(category = {}, service = {}) {
+  const haystack = [
+    category.id,
+    category.slug,
+    category.title,
+    service.category,
+    service.slug,
+    service.title,
+    service.shortTitle,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
+
+  if (/pregnancy|maternity|antenatal|postnatal|obstetric/.test(haystack)) return 'Pregnancy Care'
+  if (/gyn|gynaec|gynec|laparoscopy|hysteroscopy|menstrual|pcos|menopause/.test(haystack)) return 'Gynecological/Non Pregnancy Related'
+  if (/health\s*check|checkup|check-up|screening/.test(haystack)) return 'Health Checkup'
+  if (/wellness|nutrition|diet|lifestyle/.test(haystack)) return 'Wellness & Nutrition'
+  if (/fertility|ivf|iui|icsi|infertility|ovulation|semen|embryo/.test(haystack)) return 'Infertility/IVF'
+
+  return ''
+}
+
+export function ServiceDetailLayout({ category, service: rawService }) {
   const service = useMemo(() => {
     if (!rawService) return {}
 
@@ -456,8 +481,8 @@ function buildVideoEmbedUrl(url = '') {
     }
   }
 
-  // Pre-fill department mapping
-  const departmentMapping = service.title
+  // Pre-fill only one of the approved appointment departments.
+  const departmentMapping = getAppointmentDepartmentForService(category, service)
 
   // JSON-LD schemas
   const jsonLd = useMemo(() => {
@@ -807,7 +832,10 @@ function buildVideoEmbedUrl(url = '') {
                 <p className="text-xs font-black text-text-muted uppercase tracking-wider">Availability</p>
                 <h3 className="text-lg font-bold text-text-primary mt-2">Monday to Saturday</h3>
               </div>
-              <span className="mt-4 text-xs font-bold text-brand-teal">09:00 AM – 06:00 PM</span>
+              <div className="mt-4 grid gap-1 text-xs font-bold text-brand-teal">
+                <span>9:00 AM to 9:00 PM</span>
+                <span>Sunday: 10:00 AM to 2:00 PM</span>
+              </div>
             </article>
           </section>
 

@@ -8,6 +8,7 @@ import { useToast } from '../shared/Toast'
 import { Button } from '../shared/Button'
 import { Field, Input, Textarea } from '../shared/Input'
 import { DepartmentSelect } from './DepartmentSelect'
+import { normalizeAppointmentDepartment } from './appointmentDepartments'
 import { ReceiptPreview } from './ReceiptPreview'
 import { useSiteSettings } from '../../context/SiteSettingsContext'
 
@@ -37,11 +38,11 @@ export function AppointmentForm({ defaultDepartment = '' }) {
     control,
   } = useForm({
     resolver: zodResolver(appointmentSchema),
-    defaultValues: { department: defaultDepartment || '', consentToContact: false },
+    defaultValues: { department: normalizeAppointmentDepartment(defaultDepartment), consentToContact: false },
   })
 
   useEffect(() => {
-    reset({ department: defaultDepartment || '', consentToContact: false })
+    reset({ department: normalizeAppointmentDepartment(defaultDepartment), consentToContact: false })
   }, [defaultDepartment, reset])
 
   async function onSubmit(values) {
@@ -103,7 +104,6 @@ export function AppointmentForm({ defaultDepartment = '' }) {
               control={control}
               render={({ field }) => (
                 <DepartmentSelect
-                  currentValue={field.value}
                   value={field.value || ''}
                   onChange={(e) => field.onChange(e.target.value)}
                   onBlur={field.onBlur}

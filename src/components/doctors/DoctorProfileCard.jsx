@@ -24,7 +24,7 @@ export function DoctorProfileCard({ doctor }) {
         <div className="mt-5 grid gap-3 text-sm text-slate-700">
           <p className="flex gap-2"><GraduationCap className="size-5 text-brand-rose" /> {displayDoctorQualifications(doctor.qualifications)}</p>
           <p className="flex gap-2"><Award className="size-5 text-brand-rose" /> {experienceYears} years experience, {doctor.proceduresCount}</p>
-          <p className="flex gap-2"><Clock className="size-5 text-brand-rose" /> {doctor.consultationTiming}</p>
+          <p className="flex gap-2 whitespace-pre-line"><Clock className="size-5 text-brand-rose" /> {doctor.consultationTiming}</p>
         </div>
       </div>
     </article>

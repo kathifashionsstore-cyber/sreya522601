@@ -72,7 +72,7 @@ export function Footer() {
           <div className="grid gap-3 text-xs font-medium leading-relaxed">
             <p className="flex gap-2.5">
               <MapPin className="size-4 shrink-0 text-brand-rose" />
-              <span>{settings.address || 'Guntur Road, Narsaraopet, Palnadu District, Andhra Pradesh - 522601'}</span>
+              <span>{settings.address || 'Guntur Road, Narsaraopet, Palnadu District, Andhra Pradesh, India - 522601'}</span>
             </p>
             <p className="flex gap-2.5">
               <Phone className="size-4 shrink-0 text-brand-teal" />
@@ -87,7 +87,9 @@ export function Footer() {
             </p>
             <p className="flex gap-2.5">
               <Clock className="size-4 shrink-0 text-slate-400" />
-              <span>{settings.hours || 'Open daily: 09:00 am – 06:00 pm'}</span>
+              <span className="whitespace-pre-line">
+                {settings.businessHours || settings.hours || 'Monday to Saturday: 9:00 AM to 9:00 PM\nSunday: 10:00 AM to 2:00 PM'}
+              </span>
             </p>
           </div>
         </div>

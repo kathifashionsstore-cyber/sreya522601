@@ -40,13 +40,16 @@ export const publicSettings = {
   tagline: 'Focused fertility treatments and fertility testing with calm clinical guidance.',
   practicingSinceYear: 2009,
   doctorExperienceYears: 17,
-  phone: '',
-  whatsapp: '',
+  phone: '9390328255',
+  phonePrimary: '08647-222888',
+  phoneMobile: '9390328255',
+  whatsapp: '9390328255',
   email: '',
   address:
-    'Address pending confirmation - Narasaraopet, Palnadu District, Andhra Pradesh 522601',
+    'Guntur Road, Narsaraopet, Palnadu District, Andhra Pradesh, India - 522601',
   mapEmbedUrl: '',
-  businessHours: 'Daily consultation timings pending hospital confirmation.',
+  businessHours: 'Monday to Saturday: 9:00 AM to 9:00 PM\nSunday: 10:00 AM to 2:00 PM',
+  hours: 'Monday to Saturday: 9:00 AM to 9:00 PM\nSunday: 10:00 AM to 2:00 PM',
   logoUrl: '',
   maintenanceMode: false,
   socialLinks: {
@@ -167,7 +170,7 @@ export const publicSettings = {
     contact: {
       badge: 'Contact',
       title: 'Reach the Sreya Hospitals team',
-      subtitle: 'Phone and exact address are intentionally pending until hospital confirmation.',
+      subtitle: 'Visit us on Guntur Road, Narsaraopet or call 9390328255 for appointments and patient support.',
       imageUrl: placeholderImages.care,
     },
     appointment: {
@@ -444,7 +447,7 @@ export const doctors = [
     proceduresCount: '2000+ parenthood journeys',
     awards: ['First IVF/test-tube-baby centre in Palnadu - verify before publishing'],
     memberships: ['Membership details pending confirmation'],
-    consultationTiming: 'Timings pending confirmation',
+    consultationTiming: 'Monday to Saturday: 9:00 AM to 9:00 PM\nSunday: 10:00 AM to 2:00 PM',
     freeCampInfo: 'Free fertility counselling camp on the last Sunday of every month.',
     bio:
       'Dr. M. Vasanta Kiran leads fertility and women\'s health care at Sreya Hospitals & IVF Centre. Public directory details must be verified by the hospital before final publishing.',

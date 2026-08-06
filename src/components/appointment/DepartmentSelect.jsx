@@ -1,20 +1,12 @@
 import { Select } from '../shared/Input'
+import { appointmentDepartments, normalizeAppointmentDepartment } from './appointmentDepartments'
 
-const appointmentDepartments = [
-  'Health Check-Up',
-  'IVF',
-  'Pregnancy Care',
-  'Fertility Testing',
-  'Gynaecology Related',
-]
-
-export function DepartmentSelect({ currentValue = '', ...props }) {
-  const hasCurrent = currentValue && appointmentDepartments.includes(currentValue)
+export function DepartmentSelect({ value = '', ...props }) {
+  const selectedValue = normalizeAppointmentDepartment(value)
 
   return (
-    <Select {...props}>
+    <Select {...props} value={selectedValue}>
       <option value="">Choose a department</option>
-      {currentValue && !hasCurrent ? <option value={currentValue}>{currentValue}</option> : null}
       {appointmentDepartments.map((department) => (
         <option key={department} value={department}>
           {department}

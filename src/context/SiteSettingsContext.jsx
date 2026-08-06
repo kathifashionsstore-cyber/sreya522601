@@ -5,6 +5,9 @@ import { useFirestoreDoc } from '../hooks/useFirestoreCollection'
 
 const SiteSettingsContext = createContext(null)
 const preferredLogoUrl = '/logoo.webp'
+const confirmedAddress = 'Guntur Road, Narsaraopet, Palnadu District, Andhra Pradesh, India - 522601'
+const confirmedMobile = '9390328255'
+const confirmedBusinessHours = 'Monday to Saturday: 9:00 AM to 9:00 PM\nSunday: 10:00 AM to 2:00 PM'
 
 function normalizeLogoUrl(url) {
   if (!url) return ''
@@ -25,6 +28,19 @@ function normalizeLogoUrl(url) {
   }
 
   return logoUrl
+}
+
+function normalizeAddress(address) {
+  if (!address || /pending confirmation/i.test(String(address))) return confirmedAddress
+  return address
+}
+
+function normalizeBusinessHours(hours) {
+  const text = String(hours || '')
+  if (!text || /pending|open today|09:00\s*am\s*[–-]\s*06:00\s*pm|daily/i.test(text)) {
+    return confirmedBusinessHours
+  }
+  return hours
 }
 
 export function SiteSettingsProvider({ children }) {
@@ -52,6 +68,13 @@ export function SiteSettingsProvider({ children }) {
     return {
       ...raw,
       logoUrl: normalizeLogoUrl(raw.logoUrl),
+      address: normalizeAddress(raw.address),
+      legalAddress: normalizeAddress(raw.legalAddress || raw.address),
+      businessHours: normalizeBusinessHours(raw.businessHours || raw.hours),
+      hours: normalizeBusinessHours(raw.hours || raw.businessHours),
+      phone: raw.phone || raw.phoneMobile || confirmedMobile,
+      phoneMobile: raw.phoneMobile || raw.phone || confirmedMobile,
+      whatsapp: raw.whatsapp || raw.phoneMobile || raw.phone || confirmedMobile,
       announcementBar: {
         enabled: true,
         text: announcementText,

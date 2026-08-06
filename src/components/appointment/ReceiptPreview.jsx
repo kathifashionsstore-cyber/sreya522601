@@ -352,7 +352,7 @@ function ReceiptDocument({ appointment, settings, doctor, logoUrl, doctorPhotoUr
                   <Text style={styles.eyebrow}>Advanced IVF Appointment Receipt</Text>
                   <Text style={styles.hospitalName}>{hospitalName}</Text>
                   <Text style={styles.hospitalMeta}>{settings.tagline || 'Advanced fertility and women health care'}</Text>
-                  <Text style={styles.hospitalMeta}>{settings.address || 'Guntur Road, Narasaraopet, Andhra Pradesh'}</Text>
+                  <Text style={styles.hospitalMeta}>{settings.address || 'Guntur Road, Narsaraopet, Palnadu District, Andhra Pradesh, India - 522601'}</Text>
                   <Text style={styles.hospitalMeta}>{contactLine}</Text>
                   <Text style={styles.hospitalMeta}>{PUBLIC_SITE_HOME}</Text>
                 </View>
@@ -683,7 +683,7 @@ export function ReceiptPreview({ appointment }) {
               <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Hospital Address</p>
               <p className="mt-1 flex gap-2 text-xs font-semibold leading-5 text-slate-700">
                 <MapPin className="mt-0.5 size-3.5 shrink-0 text-primary" />
-                <span>{settings.address || 'Guntur Road, Narasaraopet, Andhra Pradesh'}</span>
+                <span>{settings.address || 'Guntur Road, Narsaraopet, Palnadu District, Andhra Pradesh, India - 522601'}</span>
               </p>
             </div>
           </div>

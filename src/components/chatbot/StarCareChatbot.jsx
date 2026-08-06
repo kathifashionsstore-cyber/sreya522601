@@ -242,7 +242,7 @@ export function StarCareChatbot() {
     if (/(timing|hours|open|time)/.test(q)) {
       return {
         text: `Our consultation timings are:\n**${
-          settings.businessHours || 'Monday - Saturday: 9:00 AM - 6:00 PM, Sunday: Closed'
+          settings.businessHours || 'Monday to Saturday: 9:00 AM to 9:00 PM\nSunday: 10:00 AM to 2:00 PM'
         }**.`
       }
     }

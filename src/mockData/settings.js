@@ -4,10 +4,13 @@ export const settings = {
   doctorExperienceYears: 17,
   heroSubtext: "Join countless families supported by our renowned IVF and fertility services at Sreya Hospitals & IVF Centre.",
   address: "Guntur Road, Narsaraopet, Palnadu District, Andhra Pradesh, India - 522601",
-  legalAddress: "D No 16-2-116, Guntur Road, Narasaraopet, Palnadu Dist.", // used in Privacy Policy footer
-  businessHours: "Open today 09:00 am – 06:00 pm",
+  legalAddress: "Guntur Road, Narsaraopet, Palnadu District, Andhra Pradesh, India - 522601", // used in Privacy Policy footer
+  businessHours: "Monday to Saturday: 9:00 AM to 9:00 PM\nSunday: 10:00 AM to 2:00 PM",
+  hours: "Monday to Saturday: 9:00 AM to 9:00 PM\nSunday: 10:00 AM to 2:00 PM",
   phonePrimary: "08647-222888",
   phoneMobile: "9390328255",
+  phone: "9390328255",
+  whatsapp: "9390328255",
   email: "contact@sreyaivfcentre.com",
   aboutHeadline: "Discover Expert Guidance at Sreya IVF Centre – Where Hope Meets Care!",
   aboutBody: [
