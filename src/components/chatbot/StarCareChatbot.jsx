@@ -55,7 +55,7 @@ export function StarCareChatbot() {
   const [messages, setMessages] = useState([
     {
       role: 'bot',
-      text: 'Hello! I am **Star Care AI**, your real-time assistant for Sreya Hospitals. You can ask me questions or **book an appointment** directly with me right here!',
+      text: 'Hello! I am **Sreya Hospital AI**, your real-time assistant for Sreya Hospitals. You can ask me questions or **book an appointment** directly with me right here!',
     },
   ])
 
@@ -319,8 +319,8 @@ export function StarCareChatbot() {
         type="button"
         className="fixed right-3 z-40 grid size-11 place-items-center rounded-2xl border border-white bg-primary text-white shadow-lift transition-transform hover:scale-105 bottom-[calc(18.75rem+env(safe-area-inset-bottom))] sm:right-4 lg:bottom-[16.75rem] lg:right-5"
         onClick={() => setOpen(true)}
-        aria-label="Open Star Care AI"
-        title="Chat with Star Care AI"
+        aria-label="Open Sreya Hospital AI"
+        title="Chat with Sreya Hospital AI"
       >
         <Bot className="size-6 text-white" />
       </button>
@@ -334,7 +334,7 @@ export function StarCareChatbot() {
                 <Bot className="size-5 text-white" />
               </span>
               <div>
-                <p className="font-black leading-tight text-white text-base">Star Care Real-Time AI</p>
+                <p className="font-black leading-tight text-white text-base">Sreya Hospital Real-Time AI</p>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
                   <p className="text-[10px] text-white/80 font-bold uppercase tracking-wider">
